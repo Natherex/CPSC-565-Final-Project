@@ -3,7 +3,9 @@ guid: 3383f21280cef492f80c81a339f0274e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bacteria_prefab: {fileID: 2658244285270999867, guid: 2271dee4048c4384482c29437f7a4860,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
