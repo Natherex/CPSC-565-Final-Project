@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class globals : MonoBehaviour
 {
-    public static int total_agar = 100;
+    public static int total_agar = 1000;
     public static globals Instance { get; private set; }
     // Start is called before the first frame update
     //[5]Reso Coder (2017, Mar 24) Singletons in Unity - Simple Tutorial for Beginners - https://www.youtube.com/watch?v=CPKAgyp8cno&ab_channel=ResoCoder

@@ -42,8 +42,8 @@ public class AgarBehaviour : MonoBehaviour
 
     private void changeUIWithAgarLevel()
     {
-        // Get the new agar nutrient level from the public var????
-        agarCurrentNutrientLevel = 100f;
+        // Get the new agar nutrient level 
+        agarCurrentNutrientLevel = globals.total_agar;
 
         nutrientLevelText.text = agarCurrentNutrientLevel.ToString();
 
