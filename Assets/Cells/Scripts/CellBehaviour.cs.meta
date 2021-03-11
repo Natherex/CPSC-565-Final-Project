@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - bacteria_prefab: {fileID: 2658244285270999867, guid: 2271dee4048c4384482c29437f7a4860,
+  - cell_prefab: {fileID: 2658244285270999867, guid: 2271dee4048c4384482c29437f7a4860,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

@@ -5,9 +5,13 @@ using UnityEngine;
 public class CellBehaviour : MonoBehaviour
 {
     // Reference to cell prefabs used for replication
-    public GameObject bacteria_prefab;
-    
+  //  public GameObject cell;
+ //   public GameObject cell_prefab;
     private Rigidbody physicsBody;
+    private int reproduction_limit = 5;
+    private int cells_reproduced = 0;
+    private bool quorum_sensing_switch = false;
+    private float targetTime = 5.0f;   //how long it will count down
     Vector3 force;
    
 
@@ -34,21 +38,36 @@ public class CellBehaviour : MonoBehaviour
         Collider[] nearby_objects = Physics.OverlapSphere(transform.position, radius);
 
         // Threshold value check
-        if (nearby_objects.Length >= threshold_value) 
+        if (nearby_objects.Length >= threshold_value)
         { 
             Debug.Log("Activating emergent behavior.");
             emergent_behavior();
+            quorum_sensing_switch = true;
         }
         // Theshold value not reached: Divide and create new bacteria
-        else
+        else if (!quorum_sensing_switch)
         {
-            Debug.Log("Creating new bacteria.");
+            // Wait a bit before spawning
+            targetTime -= Time.deltaTime; //reduce target time by 1 every second
 
-            // Create new game object
-            //  Instantiate(bacteria_prefab, transform.position, Quaternion.identity);
-            Instantiate(bacteria_prefab);
-            // Update global signalling molecule value
-            Debug.Log("Update signalling molecule +1");
+            if (targetTime <= 0.0f)       //timer ended
+            {
+                targetTime = 5.0f;
+              //  timerEnded();
+                Debug.Log("Creating new bacteria.");
+
+                if (cells_reproduced < reproduction_limit)
+                {
+                    // Create new game object
+                    createCell(transform.position);
+                    cells_reproduced++;
+                }
+                //  Instantiate(cell, transform.position, Quaternion.identity);
+                //  Instantiate(bacteria_prefab);
+                // Update global signalling molecule value
+                Debug.Log("Update signalling molecule +1");
+            
+            }
 
         }
 
@@ -58,5 +77,19 @@ public class CellBehaviour : MonoBehaviour
     {
         // Change the current agent cell's colour
         GetComponent<Renderer>().material.color = Color.red;
+        quorum_sensing_switch = true;
+    }
+
+    // Adapted from Sammy's cellSpawner.cs
+    private void createCell(Vector3 spawn_location)
+    {
+        var go = GameObject.Find("Cell(Clone)");
+        if (go != null)
+        {
+            // GameObject new_cell = Instantiate(go, transform.position, Quaternion.identity) as GameObject;
+            Instantiate(go, spawn_location, Quaternion.identity);
+           // new_cell.transform.position = spawn_location;
+        }
+        else { Debug.Log("Failed to find Cell."); }
     }
 }
