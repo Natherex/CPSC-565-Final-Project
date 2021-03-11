@@ -13,6 +13,9 @@ public class CellBehaviour : MonoBehaviour
     private bool quorum_sensing_switch = false;
     private float targetTime = 5.0f;   //how long it will count down
     Vector3 force;
+
+    // Cell individual energy level initially starts at 100
+    private int energy = 4000;
    
 
     public void constructor()
@@ -61,6 +64,9 @@ public class CellBehaviour : MonoBehaviour
                     // Create new game object
                     createCell(transform.position);
                     cells_reproduced++;
+
+                    // Reduce energy
+                    energy = energy - 10;
                 }
                 //  Instantiate(cell, transform.position, Quaternion.identity);
                 //  Instantiate(bacteria_prefab);
@@ -70,6 +76,24 @@ public class CellBehaviour : MonoBehaviour
             }
 
         }
+
+        // Consume energy
+        energy = energy - 1;
+     //   Debug.Log("1");
+        // Take energy from agar
+        if (globals.total_agar > 2)
+        {
+            energy = energy + 2;Debug.Log("2");
+            globals.total_agar = globals.total_agar - 2;
+        }
+
+        // Check if this cell has died
+        if (energy <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+
 
     }
 
