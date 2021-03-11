@@ -10,7 +10,7 @@ public class CameraBehaviour : MonoBehaviour
     private Vector3 lastMouse = new Vector3(255, 255, 255);
     private float camSens = 0.25f;
     private float totalRun = 1.0f;
-    private float mainSpeed = 40.0f; // regular speed
+    private float mainSpeed = 20.0f; // regular speed
     private float shiftAdd = 250.0f; // multiplied by how long shift is held, makes movements faster
     private float maxShift = 1000.0f; // max speed when holding shift
 
