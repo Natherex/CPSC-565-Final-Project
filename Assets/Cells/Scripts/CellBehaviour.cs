@@ -22,6 +22,8 @@ public class CellBehaviour : MonoBehaviour
     // Quorum Sensing (QS) Configuration
     private int radius = 1;
     private int threshold_value = 5;
+    public GameObject LAI_1;
+    private float target_time_for_LAI_1 = 2.0f;
 
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
@@ -29,12 +31,6 @@ public class CellBehaviour : MonoBehaviour
     private bool quorum_sensing_switch = false;
     private float target_time = 5.0f;
     private int energy = 4000;
-   
-    // Can this constructor be removed?
-    public void constructor()
-    {
-
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -51,10 +47,12 @@ public class CellBehaviour : MonoBehaviour
 
         quorum_sensing();
         consume_energy();
+        release_signalling_molecule();
     }
 
     /*
      * Specify the emergent behavior the cells should have here. For now, will simply change cell colours
+     * Here will be antibiotic resistence I think
      */
     private void emergent_behavior ()
     {
@@ -87,7 +85,7 @@ public class CellBehaviour : MonoBehaviour
         // QS Step 2: Check surrounding population cell density
         if (!quorum_sensing_switch)
         {
-            // Case 1: Cell density has reached the threshold value
+            // Case 1: Cell density has reached the threshold value - emergent behaviour 
             if (nearby_objects.Length >= threshold_value)
             {
                 Debug.Log("Activating emergent behavior");
@@ -133,7 +131,20 @@ public class CellBehaviour : MonoBehaviour
         // QS Step 3: Cells die upon having no energy
         if (energy <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+    }
+
+    /*
+     * Cell releases a signalling molecule at a certain rate
+     */
+    private void release_signalling_molecule()
+    {
+        target_time_for_LAI_1 -= Time.deltaTime;
+        if (target_time_for_LAI_1 <= 0.0f)
+        {
+            target_time_for_LAI_1 = 1.0f;
+            Instantiate(LAI_1, transform.position, Quaternion.identity);
         }
     }
 }
