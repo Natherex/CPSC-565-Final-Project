@@ -20,6 +20,7 @@ public class cellSpawner : MonoBehaviour
     {
         
     }
+
     private void createCell()
     {
         GameObject newCell = Instantiate(cell) as GameObject;

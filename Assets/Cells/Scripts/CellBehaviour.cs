@@ -16,21 +16,21 @@ public class CellBehaviour : MonoBehaviour
 {
 
     // Cell Reproduction Configuration
-    private int reproduction_limit = 5;
+    private int reproduction_limit = 5; // ADD TO UI AS PARAM TO ADJUST
     private int cells_reproduced = 0;
 
     // Quorum Sensing (QS) Configuration
-    private int radius = 1;
+    private int radius = 1; // ADD TO UI AS PARAM TO ADJUST??
     private int threshold_value = 5;
     public GameObject LAI_1;
-    private float target_time_for_LAI_1 = 2.0f;
+    public float target_time_for_LAI_1 = 4.0f; // ADD TO UI AS PARAM TO ADJUST
 
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
     Vector3 force;
     private bool quorum_sensing_switch = false;
-    private float target_time = 5.0f;
-    private int energy = 4000;
+    private float target_time = 5.0f; // ADD TO UI AS PARAM TO ADJUST??
+    private int energy = 4000; // ADD TO UI AS PARAM TO ADJUST??
 
     // Start is called before the first frame update
     void Start()
@@ -79,14 +79,28 @@ public class CellBehaviour : MonoBehaviour
      */
     private void quorum_sensing ()
     {
-        // QS Step 1: Sense the number of surrounding bacteria
+        // QS Step 1: Sense the number of surrounding molecules
+        List<Collider> nearby_molecules = new List<Collider>();
+
+        // Get all nearby objects
         Collider[] nearby_objects = Physics.OverlapSphere(transform.position, radius);
 
-        // QS Step 2: Check surrounding population cell density
+        // Sort through objects and save the molecules
+        foreach (Collider c in nearby_objects)
+        {
+            if (c.CompareTag("LAI_1"))
+            {
+                nearby_molecules.Add(c);
+            }
+        }
+
+        Debug.Log(nearby_molecules.Count);
+
+        // QS Step 2: Check surrounding signalling molecule concentration
         if (!quorum_sensing_switch)
         {
-            // Case 1: Cell density has reached the threshold value - emergent behaviour 
-            if (nearby_objects.Length >= threshold_value)
+            // Case 1: Molecule concentration (therefore cell density) has reached the threshold value - emergent behaviour 
+            if (nearby_molecules.Count >= threshold_value)
             {
                 Debug.Log("Activating emergent behavior");
                 emergent_behavior();
@@ -146,5 +160,11 @@ public class CellBehaviour : MonoBehaviour
             target_time_for_LAI_1 = 1.0f;
             Instantiate(LAI_1, transform.position, Quaternion.identity);
         }
+    }
+
+
+    private void OnMouseDown()
+    {
+        Debug.Log("This cell is quorum sensing: " + quorum_sensing_switch +"\n"+"Energy :"+ energy);
     }
 }
