@@ -19,6 +19,8 @@ public class CellBehaviour : MonoBehaviour
     private int reproduction_limit = 5; // ADD TO UI AS PARAM TO ADJUST
     private int cells_reproduced = 0;
 
+    private int antiBioticRadius = 2;
+
     // Quorum Sensing (QS) Configuration
     private int radius = 1; // ADD TO UI AS PARAM TO ADJUST??
     private int threshold_value = 5;
@@ -118,10 +120,15 @@ public class CellBehaviour : MonoBehaviour
 
                     if (cells_reproduced < reproduction_limit)
                     {
+                        if(antiBioticPresent())
+                        {
+                            Destroy(gameObject);
+                        }else{
                         // Create new game object
                         createCell(transform.position);
                         cells_reproduced++;
                         energy = energy - 10;
+                        }
                     }
                 }
             }
@@ -131,6 +138,18 @@ public class CellBehaviour : MonoBehaviour
     /*
      * As the cells move, they consume energy and will die upon its depletion
      */
+    private bool antiBioticPresent()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, antiBioticRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            if(hitCollider.tag == "AntiBiotic")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private void consume_energy ()
     {
         Debug.Log("Consuming Energy.");
