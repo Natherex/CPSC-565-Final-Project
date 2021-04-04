@@ -124,4 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3383f21280cef492f80c81a339f0274e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UISettings: {fileID: 11400000, guid: a426bf94dcb5645e39fd235707bb6812, type: 2}
   LAI_1: {fileID: 94878864271759277, guid: e3a36dc3db0d64a2a8ad03c971e8bd4c, type: 3}
+  target_time_for_LAI_1: 4

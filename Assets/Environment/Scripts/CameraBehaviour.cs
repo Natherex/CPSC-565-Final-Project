@@ -25,22 +25,22 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Get the change in mouse position
-        lastMouse = Input.mousePosition - lastMouse;
+        //// Get the change in mouse position
+        //lastMouse = Input.mousePosition - lastMouse;
 
-        // Adjust 2D vectors for camera sensitivity
-        lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0);
+        //// Adjust 2D vectors for camera sensitivity
+        //lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0);
 
-        // Project camera's rotation onto the 2D coordinates of the mouse position
-        lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x, transform.eulerAngles.y + lastMouse.y, 0);
+        //// Project camera's rotation onto the 2D coordinates of the mouse position
+        //lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x, transform.eulerAngles.y + lastMouse.y, 0);
 
-        // If left click
-        if (Input.GetMouseButton(0))
-        {
-            transform.eulerAngles = lastMouse;
-        }
+        //// If left click
+        //if (Input.GetMouseButton(0))
+        //{
+        //    transform.eulerAngles = lastMouse;
+        //}
 
-        lastMouse = Input.mousePosition;
+        //lastMouse = Input.mousePosition;
 
 
         // Keyboard commands

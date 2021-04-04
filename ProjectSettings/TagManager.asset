@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LAI_1
   - AntiBiotic
+  - ReproductionLimit
   layers:
   - Default
   - TransparentFX

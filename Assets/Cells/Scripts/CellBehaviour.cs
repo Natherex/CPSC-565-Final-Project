@@ -15,29 +15,30 @@ using UnityEngine;
 public class CellBehaviour : MonoBehaviour
 {
 
+    public UISriptable UISettings;
+
     // Cell Reproduction Configuration
-    private int reproduction_limit = 5; // ADD TO UI AS PARAM TO ADJUST
     private int cells_reproduced = 0;
 
-    private int antiBioticRadius = 2;
-
     // Quorum Sensing (QS) Configuration
-    private int radius = 1; // ADD TO UI AS PARAM TO ADJUST??
-    private int threshold_value = 5;
+    private int threshold_value = 5; // FOR EA??
     public GameObject LAI_1;
-    public float target_time_for_LAI_1 = 4.0f; // ADD TO UI AS PARAM TO ADJUST
+    public float target_time_for_LAI_1 = 4.0f; // FOR EA
 
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
     Vector3 force;
     private bool quorum_sensing_switch = false;
-    private float target_time = 5.0f; // ADD TO UI AS PARAM TO ADJUST??
-    private int energy = 4000; // ADD TO UI AS PARAM TO ADJUST??
+    private float target_time = 5.0f; // FOR EA
+    private int energy; 
 
     // Start is called before the first frame update
     void Start()
     {
+        energy = UISettings.energy;
+
         physicsBody = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -85,7 +86,7 @@ public class CellBehaviour : MonoBehaviour
         List<Collider> nearby_molecules = new List<Collider>();
 
         // Get all nearby objects
-        Collider[] nearby_objects = Physics.OverlapSphere(transform.position, radius);
+        Collider[] nearby_objects = Physics.OverlapSphere(transform.position, UISettings.QSRadius);
 
         // Sort through objects and save the molecules
         foreach (Collider c in nearby_objects)
@@ -96,7 +97,7 @@ public class CellBehaviour : MonoBehaviour
             }
         }
 
-        Debug.Log(nearby_molecules.Count);
+        //Debug.Log(nearby_molecules.Count);
 
         // QS Step 2: Check surrounding signalling molecule concentration
         if (!quorum_sensing_switch)
@@ -104,7 +105,7 @@ public class CellBehaviour : MonoBehaviour
             // Case 1: Molecule concentration (therefore cell density) has reached the threshold value - emergent behaviour 
             if (nearby_molecules.Count >= threshold_value)
             {
-                Debug.Log("Activating emergent behavior");
+                //Debug.Log("Activating emergent behavior");
                 emergent_behavior();
             }
 
@@ -118,7 +119,7 @@ public class CellBehaviour : MonoBehaviour
                     target_time = 5.0f;
                     Debug.Log("Creating New Bacteria.");
 
-                    if (cells_reproduced < reproduction_limit)
+                    if (cells_reproduced < UISettings.reproductionLimit)
                     {
                         if(antiBioticPresent())
                         {
@@ -127,7 +128,7 @@ public class CellBehaviour : MonoBehaviour
                         // Create new game object
                         createCell(transform.position);
                         cells_reproduced++;
-                        energy = energy - 10;
+                        energy -= 10;
                         }
                     }
                 }
@@ -140,7 +141,7 @@ public class CellBehaviour : MonoBehaviour
      */
     private bool antiBioticPresent()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, antiBioticRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, UISettings.ABRadius);
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.tag == "AntiBiotic")
@@ -150,15 +151,15 @@ public class CellBehaviour : MonoBehaviour
         }
         return false;
     }
-    private void consume_energy ()
+    private void consume_energy()
     {
-        Debug.Log("Consuming Energy.");
-        energy = energy - 1;
+        //Debug.Log("Consuming Energy.");
+        energy -= 1;
 
-        if (globals.total_agar > 2)
+        if (SimulationManager.Instance.agarCurrentNutrientLevel > 2)
         {
-            energy = energy + 2; Debug.Log("2");
-            globals.total_agar = globals.total_agar - 2;
+            energy += 2; Debug.Log("2");
+            SimulationManager.Instance.agarCurrentNutrientLevel -= 2; 
         }
 
         // QS Step 3: Cells die upon having no energy
@@ -174,10 +175,16 @@ public class CellBehaviour : MonoBehaviour
     private void release_signalling_molecule()
     {
         target_time_for_LAI_1 -= Time.deltaTime;
+
         if (target_time_for_LAI_1 <= 0.0f)
         {
+            float x = transform.position.x + 1;
+            float y = 1;
+            float z = transform.position.z;
             target_time_for_LAI_1 = 1.0f;
-            Instantiate(LAI_1, transform.position, Quaternion.identity);
+            Instantiate(LAI_1, new Vector3(x, y, z), Quaternion.identity);
+
+            energy -= 2;
         }
     }
 
