@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1683536345552843891}
   m_Layer: 0
   m_Name: Cell
-  m_TagString: Untagged
+  m_TagString: cell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,5 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UISettings: {fileID: 11400000, guid: a426bf94dcb5645e39fd235707bb6812, type: 2}
+  panel: {fileID: 0}
   LAI_1: {fileID: 94878864271759277, guid: e3a36dc3db0d64a2a8ad03c971e8bd4c, type: 3}
   target_time_for_LAI_1: 4

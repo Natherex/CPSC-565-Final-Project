@@ -28,6 +28,8 @@ public  class UIEventHandler : MonoBehaviour
     public GameObject cellCountField;
     public string cellCountText;
 
+    public GameObject panel;
+
     // This method goes on the submit button
     public  void storeValues()
     {
@@ -64,6 +66,12 @@ public  class UIEventHandler : MonoBehaviour
         Debug.Log("this agar " + agarNutLevelText + " scriptobj agar: " + UISettings.agarLevel);
         Debug.Log("this energy: " + energyText + " scriptobj energy: " + UISettings.energy);
 
+    }
+
+
+    public void closeSingCellStats()
+    {
+        panel.SetActive(false);
     }
 
 

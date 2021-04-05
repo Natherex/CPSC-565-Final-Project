@@ -7,6 +7,9 @@ TagManager:
   - LAI_1
   - AntiBiotic
   - ReproductionLimit
+  - cell
+  - singleCellStats
+  - stats
   layers:
   - Default
   - TransparentFX

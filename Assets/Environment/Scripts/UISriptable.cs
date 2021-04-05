@@ -17,6 +17,7 @@ public class UISriptable : ScriptableObject
     [Tooltip("The radius of how far the antibiotic can reach")]
     [SerializeField] public float ABRadius = 2f;
 
+    // TODO: I (Ainslie) want to remove this
     [Tooltip("The radius of how far cells can interact with LAI-1")]
     [SerializeField] public float QSRadius = 2f;
 

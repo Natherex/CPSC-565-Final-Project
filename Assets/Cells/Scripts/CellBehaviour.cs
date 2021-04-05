@@ -11,17 +11,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CellBehaviour : MonoBehaviour
 {
 
     public UISriptable UISettings;
 
+    public GameObject panel;
+
     // Cell Reproduction Configuration
     private int cells_reproduced = 0;
 
     // Quorum Sensing (QS) Configuration
-    private int threshold_value = 5; // FOR EA??
+    private int qsThreshold = 5; // FOR EA??
     public GameObject LAI_1;
     public float target_time_for_LAI_1 = 4.0f; // FOR EA
 
@@ -30,7 +33,9 @@ public class CellBehaviour : MonoBehaviour
     Vector3 force;
     private bool quorum_sensing_switch = false;
     private float target_time = 5.0f; // FOR EA
-    private int energy; 
+    private int energy;
+
+    private int splittingThreshold = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +43,11 @@ public class CellBehaviour : MonoBehaviour
         energy = UISettings.energy;
 
         physicsBody = GetComponent<Rigidbody>();
-        
+
+        panel = GameObject.FindGameObjectWithTag("singleCellStats");
+
     }
+
 
     // Update is called once per frame
     void Update()
@@ -54,7 +62,8 @@ public class CellBehaviour : MonoBehaviour
     }
 
     /*
-     * Specify the emergent behavior the cells should have here. For now, will simply change cell colours
+     * Specify the emergent behavior the cells should have here. 
+     * For now, will simply change cell colours
      * Here will be antibiotic resistence I think
      */
     private void emergent_behavior ()
@@ -73,20 +82,24 @@ public class CellBehaviour : MonoBehaviour
         if (go != null)
         {
             Instantiate(go, spawn_location, Quaternion.identity);
+            SimulationStats.Instance.cellCount++;
         }
     }
 
     /*
-     * Quorum-sensing: Agents detect cell density and exhibit emergent behavior if threshold reached or
-     * reproduce if threshold not reached
+     * Quorum-sensing: Agents detect cell density and exhibit emergent 
+     * behavior if threshold reached or reproduce if threshold not reached
      */
     private void quorum_sensing ()
     {
+        
+
         // QS Step 1: Sense the number of surrounding molecules
         List<Collider> nearby_molecules = new List<Collider>();
 
         // Get all nearby objects
-        Collider[] nearby_objects = Physics.OverlapSphere(transform.position, UISettings.QSRadius);
+        Collider[] nearby_objects = Physics.OverlapSphere(transform.position,
+            UISettings.QSRadius);
 
         // Sort through objects and save the molecules
         foreach (Collider c in nearby_objects)
@@ -102,11 +115,15 @@ public class CellBehaviour : MonoBehaviour
         // QS Step 2: Check surrounding signalling molecule concentration
         if (!quorum_sensing_switch)
         {
-            // Case 1: Molecule concentration (therefore cell density) has reached the threshold value - emergent behaviour 
-            if (nearby_molecules.Count >= threshold_value)
+            // Case 1: Molecule concentration (therefore cell density)
+            // has reached the threshold value - emergent behaviour 
+            if (nearby_molecules.Count >= qsThreshold)
             {
                 //Debug.Log("Activating emergent behavior");
                 emergent_behavior();
+
+                // Cells produce more LAI_1 with higher population densities
+                release_signalling_molecule();
             }
 
             // Case 2: Cell density lower than threshold value - reproduce a new cell
@@ -119,15 +136,19 @@ public class CellBehaviour : MonoBehaviour
                     target_time = 5.0f;
                     Debug.Log("Creating New Bacteria.");
 
-                    if (cells_reproduced < UISettings.reproductionLimit)
+                    if (cells_reproduced < UISettings.reproductionLimit
+                        && energy > splittingThreshold)
                     {
                         if(antiBioticPresent())
                         {
                             Destroy(gameObject);
+                            SimulationStats.Instance.cellCount--;
                         }else{
                         // Create new game object
                         createCell(transform.position);
+
                         cells_reproduced++;
+
                         energy -= 10;
                         }
                     }
@@ -141,7 +162,8 @@ public class CellBehaviour : MonoBehaviour
      */
     private bool antiBioticPresent()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, UISettings.ABRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.
+            transform.position, UISettings.ABRadius);
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.tag == "AntiBiotic")
@@ -156,16 +178,19 @@ public class CellBehaviour : MonoBehaviour
         //Debug.Log("Consuming Energy.");
         energy -= 1;
 
-        if (SimulationManager.Instance.agarCurrentNutrientLevel > 2)
+        if (SimulationStats.Instance.agarNutrientLevel > 2)
         {
             energy += 2; Debug.Log("2");
-            SimulationManager.Instance.agarCurrentNutrientLevel -= 2; 
+            SimulationStats.Instance.agarNutrientLevel -= 2; 
         }
 
         // QS Step 3: Cells die upon having no energy
         if (energy <= 0)
         {
-            gameObject.SetActive(false);
+            // TODO: Keep as setActive or Destroy??
+            //gameObject.SetActive(false);
+            
+            SimulationStats.Instance.cellCount--;
         }
     }
 
@@ -191,6 +216,8 @@ public class CellBehaviour : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("This cell is quorum sensing: " + quorum_sensing_switch +"\n"+"Energy :"+ energy);
+        Debug.Log("CLICKED");
+        SingleCellUI.Instance.openPanel(quorum_sensing_switch, qsThreshold,
+            target_time_for_LAI_1, energy, cells_reproduced, target_time);
     }
 }
