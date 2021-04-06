@@ -91,6 +91,19 @@ public class CellBehaviour : MonoBehaviour
     }
 
     /*
+     * Specify the emergent behavior the cells should have here. 
+     * For now, will simply change cell colours
+     * Here will be antibiotic resistence I think
+     */
+    private void deactivate_emergent_behavior ()
+    {
+        // Change the current agent cell's colour
+        GetComponent<Renderer>().material.color = Color.white;
+        quorum_sensing_switch = false;
+    }
+
+
+    /*
      * Adapted from Sammy's cellSpawner.cs
      * replicates then mutates a cell
      */
@@ -189,6 +202,11 @@ public class CellBehaviour : MonoBehaviour
                         }
                     }
                 }
+            }
+        }else{
+            if (nearby_molecules.Count < qsThreshold)
+            {
+                deactivate_emergent_behavior();
             }
         }
     }
