@@ -34,6 +34,8 @@ public class CellBehaviour : MonoBehaviour
     
     private int energy;
 
+    private int maxEnergy = 100;
+
     private int splittingThreshold = 10;
 
 
@@ -235,7 +237,7 @@ public class CellBehaviour : MonoBehaviour
             //Debug.Log("Consuming Energy.");
             energy -= 1;
 
-            if (SimulationStats.Instance.agarNutrientLevel > 2)
+            if (SimulationStats.Instance.agarNutrientLevel >= 2 && energy<maxEnergy)
             {
                 energy += 2; Debug.Log("2");
                 SimulationStats.Instance.agarNutrientLevel -= 2; 
@@ -246,7 +248,7 @@ public class CellBehaviour : MonoBehaviour
             {
                 // TODO: Keep as setActive or Destroy??
                 //gameObject.SetActive(false);
-                
+                Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;
             }
         }   
