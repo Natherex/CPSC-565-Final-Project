@@ -64,7 +64,6 @@ public class CellBehaviour : MonoBehaviour
     {
         movement();
         quorum_sensing();
-        //consume_energy();
         release_signalling_molecule();
     }
 
