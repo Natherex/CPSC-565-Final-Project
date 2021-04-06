@@ -24,18 +24,24 @@ public class CellBehaviour : MonoBehaviour
     private int cells_reproduced = 0;
 
     // Quorum Sensing (QS) Configuration
-    private int qsThreshold = 5; // FOR EA??
     public GameObject LAI_1;
-    public float target_time_for_LAI_1 = 4.0f; // FOR EA
+    
 
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
     Vector3 force;
     private bool quorum_sensing_switch = false;
-    private float target_time = 5.0f; // FOR EA
+    
     private int energy;
 
     private int splittingThreshold = 10;
+
+
+    //Evolutionary Algorithm Variables
+    //TODO: make getters
+    public int qsThreshold = 5; // FOR EA??
+    public float target_time_for_LAI_1 = 4.0f; // FOR EA    
+    public float target_time = 5.0f; // FOR EA
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +52,8 @@ public class CellBehaviour : MonoBehaviour
 
         panel = GameObject.FindGameObjectWithTag("singleCellStats");
 
+        StartCoroutine(consume_energy());
+
     }
 
 
@@ -54,7 +62,7 @@ public class CellBehaviour : MonoBehaviour
     {
         movement();
         quorum_sensing();
-        consume_energy();
+        //consume_energy();
         release_signalling_molecule();
     }
 
@@ -84,16 +92,34 @@ public class CellBehaviour : MonoBehaviour
 
     /*
      * Adapted from Sammy's cellSpawner.cs
+     * replicates then mutates a cell
      */
     private void createCell(Vector3 spawn_location)
     {
-        var go = GameObject.Find("Cell(Clone)");
+        var go = this.gameObject;
         if (go != null)
         {
             Vector3 offset = new Vector3(0.15f,0,0);
-            Instantiate(go, spawn_location + offset, Quaternion.identity);
+            var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold,2),mutateFloat(target_time_for_LAI_1,2f),mutateFloat(target_time,2f));
             SimulationStats.Instance.cellCount++;
         }
+    }
+    private int mutateInt(int original,int range)
+    {
+        int modifier = Random.Range(-range,range);
+        return original + modifier;
+    }
+    private float mutateFloat(float original,float range)
+    {
+        float modifier = Random.Range(-range,range);
+        return original + modifier;
+    }
+    public void setEA(int qsThreshold,float target_time_for_LAI_1, float target_time)
+    {
+        this.qsThreshold = qsThreshold;
+        this.target_time_for_LAI_1 = target_time_for_LAI_1;
+        this.target_time = target_time;
     }
 
     /*
@@ -183,25 +209,29 @@ public class CellBehaviour : MonoBehaviour
         }
         return false;
     }
-    private void consume_energy()
+    IEnumerator consume_energy()
     {
-        //Debug.Log("Consuming Energy.");
-        energy -= 1;
-
-        if (SimulationStats.Instance.agarNutrientLevel > 2)
+        while(true)
         {
-            energy += 2; Debug.Log("2");
-            SimulationStats.Instance.agarNutrientLevel -= 2; 
-        }
+            yield return new WaitForSeconds(1); 
+            //Debug.Log("Consuming Energy.");
+            energy -= 1;
 
-        // QS Step 3: Cells die upon having no energy
-        if (energy <= 0)
-        {
-            // TODO: Keep as setActive or Destroy??
-            //gameObject.SetActive(false);
-            
-            SimulationStats.Instance.cellCount--;
-        }
+            if (SimulationStats.Instance.agarNutrientLevel > 2)
+            {
+                energy += 2; Debug.Log("2");
+                SimulationStats.Instance.agarNutrientLevel -= 2; 
+            }
+
+            // QS Step 3: Cells die upon having no energy
+            if (energy <= 0)
+            {
+                // TODO: Keep as setActive or Destroy??
+                //gameObject.SetActive(false);
+                
+                SimulationStats.Instance.cellCount--;
+            }
+        }   
     }
 
     /*
