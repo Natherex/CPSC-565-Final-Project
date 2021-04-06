@@ -52,15 +52,24 @@ public class CellBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Make the cell move
-        force = new Vector3 (Random.Range(-10,10),-0.1f,Random.Range(-10,10));
-        physicsBody.AddForce(force/500);
-
+        movement();
         quorum_sensing();
         consume_energy();
         release_signalling_molecule();
     }
 
+    /*
+     * Make cells move. Credit to 
+     */
+    private void movement()
+    {
+        var multiplier = 0.002f;
+        force = multiplier *  new Vector3(
+            (Mathf.PerlinNoise( Time.time +transform.position.x , 1)-0.5f),
+            0,
+            (Mathf.PerlinNoise(Time.time + transform.position.x , 2)-0.5f));
+        physicsBody.transform.localPosition +=  force;
+    }
     /*
      * Specify the emergent behavior the cells should have here. 
      * For now, will simply change cell colours
@@ -81,7 +90,8 @@ public class CellBehaviour : MonoBehaviour
         var go = GameObject.Find("Cell(Clone)");
         if (go != null)
         {
-            Instantiate(go, spawn_location, Quaternion.identity);
+            Vector3 offset = new Vector3(0.15f,0,0);
+            Instantiate(go, spawn_location + offset, Quaternion.identity);
             SimulationStats.Instance.cellCount++;
         }
     }
@@ -203,7 +213,7 @@ public class CellBehaviour : MonoBehaviour
 
         if (target_time_for_LAI_1 <= 0.0f)
         {
-            float x = transform.position.x + 1;
+            float x = transform.position.x + ((Mathf.PerlinNoise(Time.time + transform.position.x , 2)-0.5f)*2);
             float y = 1;
             float z = transform.position.z;
             target_time_for_LAI_1 = 1.0f;
