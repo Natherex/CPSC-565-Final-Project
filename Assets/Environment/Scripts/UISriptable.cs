@@ -21,7 +21,7 @@ public class UISriptable : ScriptableObject
     [SerializeField] public float splitThreshold = 2f;
     // Make a % for the probability it will kill a cell in it's radius
     [Tooltip("How strong/lethal tetracycline is against cells")]
-    [SerializeField] public int tetStrength = 5;
+    [SerializeField] public float tetStrength = 0.5f;
 
     [Tooltip("How much energy the cells each have")]
     [SerializeField] public int energy = 100;
@@ -30,13 +30,13 @@ public class UISriptable : ScriptableObject
     [SerializeField] public int numberOfCells = 10;
 
     [Tooltip("Mutation rate of LAI-1 production")]
-    [SerializeField] public float LAI_1MutationRate = 10f;
+    [SerializeField] public float LAI_1MutationRate = 0.1f;
 
     [Tooltip("Mutation rate of cell reproduction")]
-    [SerializeField] public float reproductionMutationRate = 10f;
+    [SerializeField] public float reproductionMutationRate = 0.1f;
 
     [Tooltip("Mutation rate of the QS threshold")]
-    [SerializeField] public float qsThresholdMutationRate = 10f;
+    [SerializeField] public float qsThresholdMutationRate = 0.1f;
 
 }
 

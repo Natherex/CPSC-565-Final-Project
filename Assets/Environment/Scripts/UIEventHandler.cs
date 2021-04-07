@@ -19,8 +19,7 @@ public  class UIEventHandler : MonoBehaviour
     public  GameObject spField;
     public  string spText;
 
-    public  GameObject tetStrengthField;
-    public  string tetStrengthText;
+    public Slider tetStrengthSlider;
 
     public  GameObject energyField;
     public  string energyText;
@@ -29,6 +28,8 @@ public  class UIEventHandler : MonoBehaviour
     public string cellCountText;
 
     public Dropdown dropDown;
+
+    public Slider mutationSlider;
 
     public GameObject panel;
 
@@ -53,9 +54,7 @@ public  class UIEventHandler : MonoBehaviour
         if (!spText.Equals(""))
             UISettings.splitThreshold = 1 * Convert.ToInt32(spText);
 
-        tetStrengthText = tetStrengthField.GetComponent<Text>().text;
-        if (!tetStrengthText.Equals(""))
-            UISettings.tetStrength = 1 * Convert.ToInt32(tetStrengthText);
+         UISettings.tetStrength = tetStrengthSlider.value;
 
         energyText = energyField.GetComponent<Text>().text;
         if (!energyText.Equals(""))
@@ -66,15 +65,16 @@ public  class UIEventHandler : MonoBehaviour
             UISettings.numberOfCells = 1 * Convert.ToInt32(cellCountText);
 
         if (dropDown.value == 0)
-            UISettings.LAI_1MutationRate = 5f;
+            UISettings.LAI_1MutationRate = mutationSlider.value;
 
         else if (dropDown.value == 1)
-            UISettings.reproductionMutationRate = 5f;
+            UISettings.reproductionMutationRate = mutationSlider.value;
 
         else if (dropDown.value == 2)
-            UISettings.qsThresholdMutationRate = 5f;
-
+            UISettings.qsThresholdMutationRate = mutationSlider.value;
     }
+
+    
 
 
     public void closeSingCellStats()
@@ -82,7 +82,6 @@ public  class UIEventHandler : MonoBehaviour
         panel.SetActive(false);
     }
 
-
-
+  
 
 }

@@ -44,10 +44,14 @@ public class CellBehaviour : MonoBehaviour
 
     // When you use these, don't actually use these variables here, but instead do "UISettings.qsThresholdMutationRate".
     // This way if they are changed mid simulation, they will update
+    // The percentage is passed in from a scale of 0 to 1. Ex. 0.1 means 10%
     public float LAI_1MutationRate;
     public float reproductionMutationRate;
     public float qsThresholdMutationRate;
-    
+
+
+    // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
+    // Ex. At 1 all cells that enter the antibiotic radius die. 
 
     // Start is called before the first frame update
     void Start()
@@ -119,6 +123,7 @@ public class CellBehaviour : MonoBehaviour
         {
             Vector3 offset = new Vector3(0.15f,0,0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
+            newCell.name = "cell";
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold,2),mutateFloat(target_time_for_LAI_1,2f),mutateFloat(target_time,2f));
             SimulationStats.Instance.cellCount++;
         }
@@ -271,7 +276,9 @@ public class CellBehaviour : MonoBehaviour
             float y = 1;
             float z = transform.position.z;
             target_time_for_LAI_1 = 1.0f;
-            Instantiate(LAI_1, new Vector3(x, y, z), Quaternion.identity);
+            GameObject sm = Instantiate(LAI_1, new Vector3(x, y, z), Quaternion.identity);
+
+            sm.name = "LAI-1";
 
             energy -= 2;
         }
