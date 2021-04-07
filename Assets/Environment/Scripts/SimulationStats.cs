@@ -6,9 +6,6 @@ public class SimulationStats : Singleton<SimulationStats>
 {
     public TextMeshProUGUI numberOfCells;
     public TextMeshProUGUI nutrientLevelText;
-    public TextMeshProUGUI antibioticText;
-
-    private bool isAntibioticPresent;
 
     public float agarNutrientLevel;
 
@@ -20,7 +17,6 @@ public class SimulationStats : Singleton<SimulationStats>
     private void Awake()
     {
         agarNutrientLevel = UISettings.agarLevel;
-        isAntibioticPresent = false;
         cellCount = UISettings.numberOfCells;
     }
 
@@ -28,12 +24,9 @@ public class SimulationStats : Singleton<SimulationStats>
     // Start is called before the first frame update
     void Start()
     {
-        // TODO: Keep antibiotic message?
         numberOfCells.text = "Number of cells: " + cellCount;
 
         nutrientLevelText.text = "Agar level: " + agarNutrientLevel.ToString();
-
-        antibioticText.text = "Is antibiotic present: " + isAntibioticPresent.ToString();
 
     }
 

@@ -16,8 +16,8 @@ public  class UIEventHandler : MonoBehaviour
     public  GameObject abRadiusField;
     public  string abRadiusText;
 
-    public  GameObject qsRadiusField;
-    public  string qsRadiusText;
+    public  GameObject spField;
+    public  string spText;
 
     public  GameObject tetStrengthField;
     public  string tetStrengthText;
@@ -27,6 +27,8 @@ public  class UIEventHandler : MonoBehaviour
 
     public GameObject cellCountField;
     public string cellCountText;
+
+    public Dropdown dropDown;
 
     public GameObject panel;
 
@@ -47,9 +49,9 @@ public  class UIEventHandler : MonoBehaviour
         if (!abRadiusText.Equals(""))
             UISettings.ABRadius = 1 * Convert.ToInt32(abRadiusText);
 
-        qsRadiusText = qsRadiusField.GetComponent<Text>().text;
-        if (!qsRadiusText.Equals(""))
-            UISettings.QSRadius = 1 * Convert.ToInt32(qsRadiusText);
+        spText = spField.GetComponent<Text>().text;
+        if (!spText.Equals(""))
+            UISettings.splitThreshold = 1 * Convert.ToInt32(spText);
 
         tetStrengthText = tetStrengthField.GetComponent<Text>().text;
         if (!tetStrengthText.Equals(""))
@@ -63,8 +65,14 @@ public  class UIEventHandler : MonoBehaviour
         if (!cellCountText.Equals(""))
             UISettings.numberOfCells = 1 * Convert.ToInt32(cellCountText);
 
-        Debug.Log("this agar " + agarNutLevelText + " scriptobj agar: " + UISettings.agarLevel);
-        Debug.Log("this energy: " + energyText + " scriptobj energy: " + UISettings.energy);
+        if (dropDown.value == 0)
+            UISettings.LAI_1MutationRate = 5f;
+
+        else if (dropDown.value == 1)
+            UISettings.reproductionMutationRate = 5f;
+
+        else if (dropDown.value == 2)
+            UISettings.qsThresholdMutationRate = 5f;
 
     }
 

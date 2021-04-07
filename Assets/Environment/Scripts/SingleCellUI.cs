@@ -23,12 +23,12 @@ public class SingleCellUI : Singleton<SingleCellUI>
         {
             panel.SetActive(true);
 
-            panelText.text = "QS triggered: " + isQSTriggered.ToString()
-                + "\nQS threshold: " + qsThreshold.ToString()
-                + "\nLAI-1 production rate: " + target_time_for_LAI_1.ToString()
-                + "\nEnergy: " + energy.ToString()
-                + "\nCells reproduced: " + cellsReproduced.ToString()
-                + "\nReproduction rate(if enough energy): " + target_time;
+            panelText.text = "<b>QS triggered: </b>" + isQSTriggered.ToString()
+                + "\n\n<b>QS threshold: </b>" + qsThreshold.ToString()
+                + "\n\n<b>LAI-1 production rate: </b>" + target_time_for_LAI_1.ToString()
+                + "\n\n<b>Energy: </b>" + energy.ToString()
+                + "\n\n<b>Cells reproduced: </b>" + cellsReproduced.ToString()
+                + "\n\n<b>Reproduction rate(if enough energy): </b>" + target_time;
 
         };
     }

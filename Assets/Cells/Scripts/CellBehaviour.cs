@@ -11,7 +11,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class CellBehaviour : MonoBehaviour
 {
@@ -36,14 +36,18 @@ public class CellBehaviour : MonoBehaviour
 
     private int maxEnergy = 100;
 
-    private int splittingThreshold = 10;
-
-
     //Evolutionary Algorithm Variables
     //TODO: make getters
     public int qsThreshold = 5; // FOR EA??
     public float target_time_for_LAI_1 = 4.0f; // FOR EA    
     public float target_time = 5.0f; // FOR EA
+
+    // When you use these, don't actually use these variables here, but instead do "UISettings.qsThresholdMutationRate".
+    // This way if they are changed mid simulation, they will update
+    public float LAI_1MutationRate;
+    public float reproductionMutationRate;
+    public float qsThresholdMutationRate;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +60,7 @@ public class CellBehaviour : MonoBehaviour
 
         StartCoroutine(consume_energy());
 
-    }
+}
 
 
     // Update is called once per frame
@@ -148,8 +152,9 @@ public class CellBehaviour : MonoBehaviour
         List<Collider> nearby_molecules = new List<Collider>();
 
         // Get all nearby objects
+        // TODO: ADJUST THE RADIUS TO A GOOD VALUE TO BE HARD CODED AT
         Collider[] nearby_objects = Physics.OverlapSphere(transform.position,
-            UISettings.QSRadius);
+            1);
 
         // Sort through objects and save the molecules
         foreach (Collider c in nearby_objects)
@@ -187,7 +192,7 @@ public class CellBehaviour : MonoBehaviour
                     Debug.Log("Creating New Bacteria.");
 
                     if (cells_reproduced < UISettings.reproductionLimit
-                        && energy > splittingThreshold)
+                        && energy > UISettings.splitThreshold)
                     {
                         if(antiBioticPresent())
                         {
