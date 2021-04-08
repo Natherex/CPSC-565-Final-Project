@@ -2,19 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 
+// Handles the single cell UI panel
 public class SingleCellUI : Singleton<SingleCellUI>
 {
-
     public GameObject panel;
     public Text panelText;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // TODO: Change the rates
+    // What should be displayed when the panel opens
     public void openPanel(bool isQSTriggered, int qsThreshold,
         float target_time_for_LAI_1, int energy, int cellsReproduced,
         float target_time)

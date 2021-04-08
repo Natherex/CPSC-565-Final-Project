@@ -7,7 +7,10 @@ public class SimulationStats : Singleton<SimulationStats>
     public TextMeshProUGUI numberOfCells;
     public TextMeshProUGUI nutrientLevelText;
 
-    public float agarNutrientLevel;
+    public float agarNutrientLevelQ1;
+    public float agarNutrientLevelQ2;
+    public float agarNutrientLevelQ3;
+    public float agarNutrientLevelQ4;
 
     public UISriptable UISettings;
 
@@ -16,7 +19,11 @@ public class SimulationStats : Singleton<SimulationStats>
 
     private void Awake()
     {
-        agarNutrientLevel = UISettings.agarLevel;
+        agarNutrientLevelQ1 = UISettings.agarLevel / 4;
+        agarNutrientLevelQ2 = UISettings.agarLevel / 4;
+        agarNutrientLevelQ3 = UISettings.agarLevel / 4;
+        agarNutrientLevelQ4 = UISettings.agarLevel / 4;
+
         cellCount = UISettings.numberOfCells;
     }
 
@@ -26,7 +33,9 @@ public class SimulationStats : Singleton<SimulationStats>
     {
         numberOfCells.text = "Number of cells: " + cellCount;
 
-        nutrientLevelText.text = "Agar level: " + agarNutrientLevel.ToString();
+        nutrientLevelText.text = "Agar levels: " + agarNutrientLevelQ1.ToString()
+            + " " + agarNutrientLevelQ2.ToString() + " " +
+            agarNutrientLevelQ3.ToString() + " " + agarNutrientLevelQ4.ToString();
 
     }
 
@@ -40,7 +49,9 @@ public class SimulationStats : Singleton<SimulationStats>
 
     private void changeUIWithAgarLevel()
     {
-        nutrientLevelText.text = "Agar level: " + agarNutrientLevel.ToString();
+        nutrientLevelText.text = "Agar levels: " + agarNutrientLevelQ1.ToString()
+            + " " + agarNutrientLevelQ2.ToString() + " " +
+            agarNutrientLevelQ3.ToString() + " " + agarNutrientLevelQ4.ToString();
     }
 
     private void updateNumberOfCells()

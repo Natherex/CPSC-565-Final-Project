@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-
+// For the scriptable object
 [CreateAssetMenu(fileName = "UISettings", menuName = "ScriptableObjects/UISettings", order = 0)]
 public class UISriptable : ScriptableObject
 {
@@ -19,8 +19,8 @@ public class UISriptable : ScriptableObject
 
     [Tooltip("How much energy a cell must have before splitting")]
     [SerializeField] public float splitThreshold = 2f;
-    // Make a % for the probability it will kill a cell in it's radius
-    [Tooltip("How strong/lethal tetracycline is against cells")]
+
+    [Tooltip("How strong/lethal tetracycline is against cells\nProbability a cell in its radius will die")]
     [SerializeField] public float tetStrength = 0.5f;
 
     [Tooltip("How much energy the cells each have")]

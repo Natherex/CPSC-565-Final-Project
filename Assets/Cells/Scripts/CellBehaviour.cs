@@ -1,4 +1,8 @@
-﻿/*
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/*
  * Authors: Isha Afzaal, Sammy Elrafih, Ainslie Veltheon
  * Info: CellBehavior.cs specifies agent behaviour in the quorum-sensing system of l. pneumophila.
  *       Cells use quorum-sensing to understand their population's cell density. Once the cell density passes a
@@ -7,15 +11,9 @@
  *  Using timers in Unity: https://answers.unity.com/questions/1453479/how-to-slow-down-random-enemy-spawn.html
  *  Making objects spawn other objects in Unity: https://answers.unity.com/questions/420177/how-do-i-make-an-object-spawn-another-one.html
  */
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
 public class CellBehaviour : MonoBehaviour
 {
-
+    // Reference to scriptable object holding data
     public UISriptable UISettings;
 
     public GameObject panel;
@@ -26,7 +24,6 @@ public class CellBehaviour : MonoBehaviour
     // Quorum Sensing (QS) Configuration
     public GameObject LAI_1;
     
-
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
     Vector3 force;
@@ -49,7 +46,6 @@ public class CellBehaviour : MonoBehaviour
     public float reproductionMutationRate;
     public float qsThresholdMutationRate;
 
-
     // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
     // Ex. At 1 all cells that enter the antibiotic radius die. 
 
@@ -64,7 +60,7 @@ public class CellBehaviour : MonoBehaviour
 
         StartCoroutine(consume_energy());
 
-}
+    }
 
 
     // Update is called once per frame
@@ -72,7 +68,7 @@ public class CellBehaviour : MonoBehaviour
     {
         movement();
         quorum_sensing();
-        release_signalling_molecule();
+        releaseSignallingMolecule();
     }
 
     /*
@@ -113,7 +109,6 @@ public class CellBehaviour : MonoBehaviour
 
 
     /*
-     * Adapted from Sammy's cellSpawner.cs
      * replicates then mutates a cell
      */
     private void createCell(Vector3 spawn_location)
@@ -121,24 +116,24 @@ public class CellBehaviour : MonoBehaviour
         var go = this.gameObject;
         if (go != null)
         {
-            Vector3 offset = new Vector3(0.15f,0,0);
+            Vector3 offset = new Vector3(0.15f, 0, 0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "cell";
-            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold,2),mutateFloat(target_time_for_LAI_1,2f),mutateFloat(target_time,2f));
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, 2), mutateFloat(target_time_for_LAI_1, 2f), mutateFloat(target_time, 2f));
             SimulationStats.Instance.cellCount++;
         }
     }
-    private int mutateInt(int original,int range)
+    private int mutateInt(int original, int range)
     {
-        int modifier = Random.Range(-range,range);
+        int modifier = Random.Range(-range, range);
         return original + modifier;
     }
-    private float mutateFloat(float original,float range)
+    private float mutateFloat(float original, float range)
     {
-        float modifier = Random.Range(-range,range);
+        float modifier = Random.Range(-range, range);
         return original + modifier;
     }
-    public void setEA(int qsThreshold,float target_time_for_LAI_1, float target_time)
+    public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
     {
         this.qsThreshold = qsThreshold;
         this.target_time_for_LAI_1 = target_time_for_LAI_1;
@@ -183,7 +178,7 @@ public class CellBehaviour : MonoBehaviour
                 emergent_behavior();
 
                 // Cells produce more LAI_1 with higher population densities
-                release_signalling_molecule();
+                releaseSignallingMolecule();
             }
 
             // Case 2: Cell density lower than threshold value - reproduce a new cell
@@ -199,7 +194,7 @@ public class CellBehaviour : MonoBehaviour
                     if (cells_reproduced < UISettings.reproductionLimit
                         && energy > UISettings.splitThreshold)
                     {
-                        if(antiBioticPresent())
+                        if(isAntiBioticPresent())
                         {
                             Destroy(gameObject);
                             SimulationStats.Instance.cellCount--;
@@ -222,13 +217,12 @@ public class CellBehaviour : MonoBehaviour
         }
     }
 
-    /*
-     * As the cells move, they consume energy and will die upon its depletion
-     */
-    private bool antiBioticPresent()
+    // As the cells move, they consume energy and will die upon its depletion
+    private bool isAntiBioticPresent()
     {
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.
             transform.position, UISettings.ABRadius);
+
         foreach (var hitCollider in hitColliders)
         {
             if(hitCollider.tag == "AntiBiotic")
@@ -238,35 +232,88 @@ public class CellBehaviour : MonoBehaviour
         }
         return false;
     }
+
+    // 
     IEnumerator consume_energy()
     {
         while(true)
         {
             yield return new WaitForSeconds(1); 
             //Debug.Log("Consuming Energy.");
+
+            // Metabolism uses up energy
             energy -= 1;
 
-            if (SimulationStats.Instance.agarNutrientLevel >= 2 && energy<maxEnergy)
+            float x = transform.position.x;
+            float z = transform.position.z;
+
+
+            
+
+            if (energy < maxEnergy)
             {
-                energy += 2; Debug.Log("2");
-                SimulationStats.Instance.agarNutrientLevel -= 2; 
+                int q = checkWhichQuadrant(x, z);
+
+                switch (q)
+                {
+                    case 1:
+                        if (SimulationStats.Instance.agarNutrientLevelQ1 >= 2)
+                        {
+                            SimulationStats.Instance.agarNutrientLevelQ1 -= 2;
+                            energy += 2; Debug.Log("2");
+                        } 
+                        break;
+                    case 2:
+                        if (SimulationStats.Instance.agarNutrientLevelQ2 >= 2)
+                        {
+                            SimulationStats.Instance.agarNutrientLevelQ2 -= 2;
+                            energy += 2; Debug.Log("2");
+                        }
+                           
+                        break;
+                    case 3:
+                        if (SimulationStats.Instance.agarNutrientLevelQ3 >= 2)
+                        {
+                            SimulationStats.Instance.agarNutrientLevelQ3 -= 2;
+                            energy += 2; Debug.Log("2");
+                        }
+                            
+                        break;
+                    case 4:
+                        if (SimulationStats.Instance.agarNutrientLevelQ4 >= 2)
+                        {
+                            SimulationStats.Instance.agarNutrientLevelQ4 -= 2;
+                            energy += 2; Debug.Log("2");
+                        }
+                            
+                        break;
+                }
+
             }
 
-            // QS Step 3: Cells die upon having no energy
+            // Cells die upon having no energy and are removed from the simulation
             if (energy <= 0)
             {
-                // TODO: Keep as setActive or Destroy??
-                //gameObject.SetActive(false);
                 Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;
             }
         }   
     }
 
-    /*
-     * Cell releases a signalling molecule at a certain rate
-     */
-    private void release_signalling_molecule()
+    private int checkWhichQuadrant(float x, float z)
+    {
+        if (x < 0 && z > 0)
+            return 1;
+        else if (x > 0 && z > 0)
+            return 2;
+        else if (x < 0 && z < 0)
+            return 3;
+        else return 4;
+    }
+
+
+    // Cell releases a signalling molecule at a certain rate
+    private void releaseSignallingMolecule()
     {
         target_time_for_LAI_1 -= Time.deltaTime;
 
@@ -284,10 +331,9 @@ public class CellBehaviour : MonoBehaviour
         }
     }
 
-
+    // When clicked send stats to the panel to display
     private void OnMouseDown()
     {
-        Debug.Log("CLICKED");
         SingleCellUI.Instance.openPanel(quorum_sensing_switch, qsThreshold,
             target_time_for_LAI_1, energy, cells_reproduced, target_time);
     }
