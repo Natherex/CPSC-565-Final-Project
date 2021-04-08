@@ -119,7 +119,8 @@ public class CellBehaviour : MonoBehaviour
             Vector3 offset = new Vector3(0.15f, 0, 0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "cell";
-            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, 2), mutateFloat(target_time_for_LAI_1, 2f), mutateFloat(target_time, 2f));
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, 2),
+                mutateFloat(target_time_for_LAI_1, 2f), mutateFloat(target_time, 2f));
             SimulationStats.Instance.cellCount++;
         }
     }
@@ -247,13 +248,11 @@ public class CellBehaviour : MonoBehaviour
             float x = transform.position.x;
             float z = transform.position.z;
 
-
-            
-
             if (energy < maxEnergy)
             {
                 int q = checkWhichQuadrant(x, z);
 
+                // Update different variables based on which quadrant cell is in
                 switch (q)
                 {
                     case 1:
@@ -319,7 +318,8 @@ public class CellBehaviour : MonoBehaviour
 
         if (target_time_for_LAI_1 <= 0.0f)
         {
-            float x = transform.position.x + ((Mathf.PerlinNoise(Time.time + transform.position.x , 2)-0.5f)*2);
+            float x = transform.position.x + ((Mathf.PerlinNoise(Time.time +
+                transform.position.x , 2)-0.5f)*2);
             float y = 1;
             float z = transform.position.z;
             target_time_for_LAI_1 = 1.0f;
