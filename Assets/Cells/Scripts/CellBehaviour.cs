@@ -111,6 +111,7 @@ public class CellBehaviour : MonoBehaviour
     /*
      * replicates then mutates a cell
      */
+
     private void createCell(Vector3 spawn_location)
     {
         var go = this.gameObject;
@@ -119,20 +120,22 @@ public class CellBehaviour : MonoBehaviour
             Vector3 offset = new Vector3(0.15f, 0, 0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "Cell";
-            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, 2),
-                mutateFloat(target_time_for_LAI_1, 2f), mutateFloat(target_time, 2f));
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, qsThresholdMutationRate),
+                mutateFloat(LAI_1MutationRate, 2f), mutateFloat(reproductionMutationRate, 2f));
             SimulationStats.Instance.cellCount++;
         }
     }
-    private int mutateInt(int original, int range)
+    private int mutateInt(int original, float mutationRate)
     {
+        int range = (int)(mutationRate*10);
         int modifier = Random.Range(-range, range);
-        return original + modifier;
+        return Mathf.Abs(original + modifier);
     }
-    private float mutateFloat(float original, float range)
+    private float mutateFloat(float original, float mutationRate)
     {
+        float range = original*mutationRate;
         float modifier = Random.Range(-range, range);
-        return original + modifier;
+        return Mathf.Abs(original + modifier);
     }
     public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
     {
