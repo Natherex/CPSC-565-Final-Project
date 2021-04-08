@@ -111,7 +111,6 @@ public class CellBehaviour : MonoBehaviour
     /*
      * replicates then mutates a cell
      */
-
     private void createCell(Vector3 spawn_location)
     {
         var go = this.gameObject;
@@ -121,19 +120,21 @@ public class CellBehaviour : MonoBehaviour
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, qsThresholdMutationRate),
-                mutateFloat(LAI_1MutationRate, 2f), mutateFloat(reproductionMutationRate, 2f));
+                mutateFloat(target_time_for_LAI_1 ,LAI_1MutationRate), mutateFloat(target_time,reproductionMutationRate));
             SimulationStats.Instance.cellCount++;
         }
     }
     private int mutateInt(int original, float mutationRate)
     {
-        int range = (int)(mutationRate*10);
+        //int range = (int)(mutationRate*10);
+        int range = 2;
         int modifier = Random.Range(-range, range);
         return Mathf.Abs(original + modifier);
     }
     private float mutateFloat(float original, float mutationRate)
     {
-        float range = original*mutationRate;
+        //float range = original*mutationRate;
+        float range = 2;
         float modifier = Random.Range(-range, range);
         return Mathf.Abs(original + modifier);
     }
@@ -203,12 +204,12 @@ public class CellBehaviour : MonoBehaviour
                             Destroy(gameObject);
                             SimulationStats.Instance.cellCount--;
                         }else{
-                        // Create new game object
-                        createCell(transform.position);
+                            // Create new game object
+                            createCell(transform.position);
 
-                        cells_reproduced++;
+                            cells_reproduced++;
 
-                        energy -= 10;
+                            energy -= 10;
                         }
                     }
                 }

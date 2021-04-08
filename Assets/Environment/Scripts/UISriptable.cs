@@ -33,7 +33,7 @@ public class UISriptable : ScriptableObject
     [SerializeField] public float LAI_1MutationRate = 0.1f;
 
     [Tooltip("Mutation rate of cell reproduction")]
-    [SerializeField] public float reproductionMutationRate = 0.1f;
+    [SerializeField] public float reproductionMutationRate = 0.001f;
 
     [Tooltip("Mutation rate of the QS threshold")]
     [SerializeField] public float qsThresholdMutationRate = 0.1f;
