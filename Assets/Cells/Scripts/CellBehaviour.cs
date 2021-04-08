@@ -118,7 +118,7 @@ public class CellBehaviour : MonoBehaviour
         {
             Vector3 offset = new Vector3(0.15f, 0, 0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
-            newCell.name = "cell";
+            newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, 2),
                 mutateFloat(target_time_for_LAI_1, 2f), mutateFloat(target_time, 2f));
             SimulationStats.Instance.cellCount++;
@@ -195,7 +195,7 @@ public class CellBehaviour : MonoBehaviour
                     if (cells_reproduced < UISettings.reproductionLimit
                         && energy > UISettings.splitThreshold)
                     {
-                        if(isAntiBioticPresent())
+                        if(isAntiBiotic1Present())
                         {
                             Destroy(gameObject);
                             SimulationStats.Instance.cellCount--;
@@ -219,14 +219,30 @@ public class CellBehaviour : MonoBehaviour
     }
 
     // As the cells move, they consume energy and will die upon its depletion
-    private bool isAntiBioticPresent()
+    private bool isAntiBiotic1Present()
     {
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.
             transform.position, UISettings.ABRadius);
 
         foreach (var hitCollider in hitColliders)
         {
-            if(hitCollider.tag == "AntiBiotic")
+            if(hitCollider.tag == "AntiBiotic1")
+            {
+                return true;
+            }
+        
+        }
+        return false;
+    }
+
+    private bool isAntiBiotic2LethalPresent()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.
+            transform.position, UISettings.ABRadius);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if(hitCollider.tag == "AntiBiotic2" && Random.Range(0f,1f) <= (UISettings.tetStrength))
             {
                 return true;
             }
@@ -290,8 +306,8 @@ public class CellBehaviour : MonoBehaviour
 
             }
 
-            // Cells die upon having no energy and are removed from the simulation
-            if (energy <= 0)
+            // Cells die upon having no energy or by chance being in presence of antiBioticand are removed from the simulation
+            if (energy <= 0 || isAntiBiotic2LethalPresent())
             {
                 Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;

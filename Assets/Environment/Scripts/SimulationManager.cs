@@ -22,7 +22,9 @@ public class SimulationManager : Singleton<SimulationManager>
     // Update is called once per frame
     void Update()
     {
-        spawnAntibiotic();   
+        spawnAntibiotic1();  
+        spawnAntibiotic2();   
+        spawnAntibiotic9();
     }
 
     private void createCells()
@@ -30,21 +32,50 @@ public class SimulationManager : Singleton<SimulationManager>
         for (int i = 0; i < UISettings.numberOfCells; i++)
         {
             GameObject newCell = Instantiate(cell) as GameObject;
+            newCell.name = "Cell";
             newCell.transform.position = new Vector3(Random.Range(-5, 5), 1, Random.Range(-4, 4));
         }
     }
 
-    private void spawnAntibiotic()
+    private void spawnAntibiotic1()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out location))
         {
             // Prevent antibiotic being spawned when clicking a cell
-            if (Input.GetMouseButtonDown(0) && !location.transform.gameObject.CompareTag("cell"))
+            if (Input.GetKeyDown("1") && !location.transform.gameObject.CompareTag("cell"))
             {
                 GameObject newAntibiotic = Instantiate(antiBiotic) as GameObject;
                 newAntibiotic.transform.position = new Vector3(location.point.x, 1, location.point.z);
-                newAntibiotic.gameObject.tag = "AntiBiotic";
+                newAntibiotic.gameObject.tag = "AntiBiotic1";
+            }
+        }
+    }
+    private void spawnAntibiotic2()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out location))
+        {
+            // Prevent antibiotic being spawned when clicking a cell
+            if (Input.GetKeyDown("2") && !location.transform.gameObject.CompareTag("cell"))
+            {
+                GameObject newAntibiotic = Instantiate(antiBiotic) as GameObject;
+                newAntibiotic.GetComponent<Renderer>().material.color = Color.yellow;
+                newAntibiotic.transform.position = new Vector3(location.point.x, 1, location.point.z);
+                newAntibiotic.gameObject.tag = "AntiBiotic2";
+            }
+        }
+    }
+    private void spawnAntibiotic9()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out location))
+        {
+            // Prevent antibiotic being spawned when clicking a cell
+            if (Input.GetKeyDown("9") && (location.transform.gameObject.CompareTag("AntiBiotic1")
+                                        ||location.transform.gameObject.CompareTag("AntiBiotic2")))
+            {
+                Destroy(location.transform.gameObject);
             }
         }
     }
