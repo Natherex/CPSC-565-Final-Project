@@ -18,7 +18,7 @@ public class SimulationManager : Singleton<SimulationManager>
     void Start()
     {
         createCells();
-        grid = new Grid(10, 10, 1, UISettings.agarLevel / 100);
+        grid = new Grid(10, 10, UISettings.agarLevel / 100);
     }
 
     // Update is called once per frame

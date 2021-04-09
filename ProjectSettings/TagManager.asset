@@ -10,10 +10,6 @@ TagManager:
   - cell
   - singleCellStats
   - stats
-  - q1
-  - q2
-  - q3
-  - q4
   - AntiBiotic1
   - AntiBiotic2
   layers:

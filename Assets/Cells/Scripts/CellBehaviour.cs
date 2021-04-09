@@ -265,8 +265,8 @@ public class CellBehaviour : MonoBehaviour
             // Metabolism uses up energy
             energy -= 1;
 
-            float x = transform.position.x;
-            float z = transform.position.z;
+            int x = (int) Mathf.Round(transform.position.x);
+            int z = (int) Mathf.Round(transform.position.z);
 
             if (energy < maxEnergy)
             {
@@ -277,6 +277,7 @@ public class CellBehaviour : MonoBehaviour
                 {
                     energy += 2;
                     SimulationManager.Instance.grid.subtractNutrientLevel(gridX, gridZ);
+                    UISettings.agarLevel -= 2;
                 }
                
             }
