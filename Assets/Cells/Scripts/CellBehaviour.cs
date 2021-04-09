@@ -270,44 +270,15 @@ public class CellBehaviour : MonoBehaviour
 
             if (energy < maxEnergy)
             {
-                int q = checkWhichQuadrant(x, z);
+                // Check the agar level at the cells location and get the grid unit cell is at
+                int currentGridLevel = SimulationManager.Instance.grid.getGridLevel(x, z, out int gridX, out int gridZ);
 
-                // Update different variables based on which quadrant cell is in
-                switch (q)
+                if (currentGridLevel > 2)
                 {
-                    case 1:
-                        if (SimulationStats.Instance.agarNutrientLevelQ1 >= 2)
-                        {
-                            SimulationStats.Instance.agarNutrientLevelQ1 -= 2;
-                            energy += 2; Debug.Log("2");
-                        } 
-                        break;
-                    case 2:
-                        if (SimulationStats.Instance.agarNutrientLevelQ2 >= 2)
-                        {
-                            SimulationStats.Instance.agarNutrientLevelQ2 -= 2;
-                            energy += 2; Debug.Log("2");
-                        }
-                           
-                        break;
-                    case 3:
-                        if (SimulationStats.Instance.agarNutrientLevelQ3 >= 2)
-                        {
-                            SimulationStats.Instance.agarNutrientLevelQ3 -= 2;
-                            energy += 2; Debug.Log("2");
-                        }
-                            
-                        break;
-                    case 4:
-                        if (SimulationStats.Instance.agarNutrientLevelQ4 >= 2)
-                        {
-                            SimulationStats.Instance.agarNutrientLevelQ4 -= 2;
-                            energy += 2; Debug.Log("2");
-                        }
-                            
-                        break;
+                    energy += 2;
+                    SimulationManager.Instance.grid.subtractNutrientLevel(gridX, gridZ);
                 }
-
+               
             }
 
             // Cells die upon having no energy or by chance being in presence of antiBioticand are removed from the simulation
@@ -317,17 +288,6 @@ public class CellBehaviour : MonoBehaviour
                 SimulationStats.Instance.cellCount--;
             }
         }   
-    }
-
-    private int checkWhichQuadrant(float x, float z)
-    {
-        if (x < 0 && z > 0)
-            return 1;
-        else if (x > 0 && z > 0)
-            return 2;
-        else if (x < 0 && z < 0)
-            return 3;
-        else return 4;
     }
 
 

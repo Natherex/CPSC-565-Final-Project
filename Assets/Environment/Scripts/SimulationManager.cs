@@ -8,6 +8,7 @@ public class SimulationManager : Singleton<SimulationManager>
     public GameObject cell;
     public GameObject antiBiotic;
     public UISriptable UISettings;
+    public Grid grid;
 
     // For antibiotic spawning
     Ray ray;
@@ -17,6 +18,7 @@ public class SimulationManager : Singleton<SimulationManager>
     void Start()
     {
         createCells();
+        grid = new Grid(10, 10, 1, UISettings.agarLevel / 100);
     }
 
     // Update is called once per frame
@@ -33,7 +35,9 @@ public class SimulationManager : Singleton<SimulationManager>
         {
             GameObject newCell = Instantiate(cell) as GameObject;
             newCell.name = "Cell";
-            newCell.transform.position = new Vector3(Random.Range(-5, 5), 1, Random.Range(-4, 4));
+
+            // TODO: Update the location where cells first spawn and change the random we use to System
+            newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
         }
     }
 
@@ -66,6 +70,8 @@ public class SimulationManager : Singleton<SimulationManager>
             }
         }
     }
+
+    // What is this 9??
     private void spawnAntibiotic9()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
