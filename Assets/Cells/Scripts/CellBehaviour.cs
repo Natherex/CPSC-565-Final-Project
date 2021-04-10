@@ -35,7 +35,7 @@ public class CellBehaviour : MonoBehaviour
 
     //Evolutionary Algorithm Variables
     //TODO: make getters
-    public int qsThreshold = 1000; // FOR EA??
+    public int qsThreshold = 10; // FOR EA??
     public float target_time_for_LAI_1 = 4.0f; // FOR EA    
     public float target_time = 5.0f; // FOR EA
 

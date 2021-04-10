@@ -31,11 +31,12 @@ public class SimulationManager : Singleton<SimulationManager>
 
     private void createCells()
     {
+        System.Random rand = new System.Random();
         for (int i = 0; i < UISettings.numberOfCells; i++)
         {
             GameObject newCell = Instantiate(cell) as GameObject;
             newCell.name = "Cell";
-
+            newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
             // TODO: Update the location where cells first spawn and change the random we use to System
             newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
         }
