@@ -35,7 +35,7 @@ public class CellBehaviour : MonoBehaviour
 
     //Evolutionary Algorithm Variables
     //TODO: make getters
-    public int qsThreshold = 5; // FOR EA??
+    public int qsThreshold = 1000; // FOR EA??
     public float target_time_for_LAI_1 = 4.0f; // FOR EA    
     public float target_time = 5.0f; // FOR EA
 
@@ -45,6 +45,7 @@ public class CellBehaviour : MonoBehaviour
     public float LAI_1MutationRate;
     public float reproductionMutationRate;
     public float qsThresholdMutationRate;
+    public System.Random rand;
 
     // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
     // Ex. At 1 all cells that enter the antibiotic radius die. 
@@ -71,17 +72,21 @@ public class CellBehaviour : MonoBehaviour
         releaseSignallingMolecule();
     }
 
+    public void setSeed(int seed)
+    {
+        rand = new System.Random(seed);
+    }
     /*
      * Make cells move. Credit to 
      */
     private void movement()
     {
-        var multiplier = 0.002f;
+        var multiplier = .1f;
         force = multiplier *  new Vector3(
-            (Mathf.PerlinNoise( Time.time +transform.position.x , 1)-0.5f),
+            (rand.Next(-30,30)),
             0,
-            (Mathf.PerlinNoise(Time.time + transform.position.x , 2)-0.5f));
-        physicsBody.transform.localPosition +=  force;
+            (rand.Next(-30,30)));
+        physicsBody.AddForce(force);
     }
     /*
      * Specify the emergent behavior the cells should have here. 
@@ -119,6 +124,7 @@ public class CellBehaviour : MonoBehaviour
             Vector3 offset = new Vector3(0.15f, 0, 0);
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "Cell";
+            newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, qsThresholdMutationRate),
                 mutateFloat(target_time_for_LAI_1 ,LAI_1MutationRate), mutateFloat(target_time,reproductionMutationRate));
             SimulationStats.Instance.cellCount++;
@@ -134,8 +140,9 @@ public class CellBehaviour : MonoBehaviour
     private float mutateFloat(float original, float mutationRate)
     {
         //float range = original*mutationRate;
-        float range = 2;
-        float modifier = Random.Range(-range, range);
+        float range = 2f;
+        float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100;
+        
         return Mathf.Abs(original + modifier);
     }
     public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
