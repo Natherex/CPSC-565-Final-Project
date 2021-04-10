@@ -35,9 +35,9 @@ public class CellBehaviour : MonoBehaviour
 
     //Evolutionary Algorithm Variables
     //TODO: make getters
-    public int qsThreshold = 10; // FOR EA??
-    public float target_time_for_LAI_1 = 4.0f; // FOR EA    
-    public float target_time = 5.0f; // FOR EA
+    private int qsThreshold = 5; // FOR EA??
+    private float target_time_for_LAI_1 = 4.0f; // FOR EA    
+    private float target_time = 5.0f; // FOR EA
 
     // When you use these, don't actually use these variables here, but instead do "UISettings.qsThresholdMutationRate".
     // This way if they are changed mid simulation, they will update
@@ -125,7 +125,7 @@ public class CellBehaviour : MonoBehaviour
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
-            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, qsThresholdMutationRate),
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, UISettings.qsThresholdMutationRate),
                 mutateFloat(target_time_for_LAI_1 ,LAI_1MutationRate), mutateFloat(target_time,reproductionMutationRate));
             SimulationStats.Instance.cellCount++;
         }
@@ -162,20 +162,24 @@ public class CellBehaviour : MonoBehaviour
 
         // QS Step 1: Sense the number of surrounding molecules
         List<Collider> nearby_molecules = new List<Collider>();
-
+        int num = 0;
         // Get all nearby objects
         // TODO: ADJUST THE RADIUS TO A GOOD VALUE TO BE HARD CODED AT
         Collider[] nearby_objects = Physics.OverlapSphere(transform.position,
-            1);
-
+            0.5f);
+        //Debug.Log("nearby_objects.length " + nearby_objects.Length);
         // Sort through objects and save the molecules
         foreach (Collider c in nearby_objects)
         {
             if (c.CompareTag("LAI_1"))
             {
-                nearby_molecules.Add(c);
+                //nearby_molecules.Add(c);
+                num++;
             }
         }
+
+        //Debug.Log("nearby_molecules.count " + nearby_molecules.Count);
+        Debug.Log("num " + num);
 
         //Debug.Log(nearby_molecules.Count);
 
@@ -184,7 +188,7 @@ public class CellBehaviour : MonoBehaviour
         {
             // Case 1: Molecule concentration (therefore cell density)
             // has reached the threshold value - emergent behaviour 
-            if (nearby_molecules.Count >= qsThreshold)
+            if (num >= qsThreshold)
             {
                 //Debug.Log("Activating emergent behavior");
                 emergent_behavior();
@@ -222,7 +226,7 @@ public class CellBehaviour : MonoBehaviour
                 }
             }
         }else{
-            if (nearby_molecules.Count < qsThreshold)
+            if (num < qsThreshold)
             {
                 deactivate_emergent_behavior();
             }

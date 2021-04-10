@@ -50,7 +50,11 @@ public  class UIEventHandler : MonoBehaviour
         
         agarNutLevelText = agarNutLevelField.GetComponent<Text>().text;
         if (!agarNutLevelText.Equals("") && Convert.ToInt32(agarNutLevelText) > 0)
+        {
             UISettings.agarLevel = 1 * Convert.ToInt32(agarNutLevelText);
+            // Way to update in simulation stats
+        }
+            
 
         abRadiusText = abRadiusField.GetComponent<Text>().text;
         if (!abRadiusText.Equals("") && Convert.ToInt32(abRadiusText) > 0)
@@ -65,11 +69,19 @@ public  class UIEventHandler : MonoBehaviour
 
         energyText = energyField.GetComponent<Text>().text;
         if (!energyText.Equals("") && Convert.ToInt32(energyText) > 0)
+        {
             UISettings.energy = 1 * Convert.ToInt32(energyText);
+            // Way to update in simulation stats
+        }
+            
 
         cellCountText = cellCountField.GetComponent<Text>().text;
         if (!cellCountText.Equals("") && Convert.ToInt32(cellCountText) > 0)
+        {
             UISettings.numberOfCells = 1 * Convert.ToInt32(cellCountText);
+            // Way to update in simulation stats
+        }
+           
 
         // Different variables affected by the sliders value depending on which
         // dropdown is chosen
@@ -84,13 +96,25 @@ public  class UIEventHandler : MonoBehaviour
 
     }
 
-    
+    // Helps user understand parameters in the simulation
+    public void showDocumentation()
+    {
+
+    }
 
     // Goes on the "x" button on the single cell stats panel
     public void closeSingCellStats()
     {
         panel.SetActive(false);
     }
+
+    // Restarts simulation with the chosen cell
+    public void streakNewPlateWithChosenCell()
+    {
+
+    }
+
+
 
   
 
