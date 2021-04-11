@@ -37,6 +37,8 @@ public  class UIEventHandler : MonoBehaviour
     // Reference to the single cell panel
     public GameObject panel;
 
+    public GameObject canvasForDocumentation;
+
     // This method goes on the submit button
     // Saves the values inputted by user to the scriptable object
     public  void storeValues()
@@ -110,7 +112,12 @@ public  class UIEventHandler : MonoBehaviour
     // Helps user understand parameters in the simulation
     public void showDocumentation()
     {
+        canvasForDocumentation.SetActive(true);
+    }
 
+    public void closeDocumentation()
+    {
+        canvasForDocumentation.SetActive(false);
     }
 
 
