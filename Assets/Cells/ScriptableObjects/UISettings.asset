@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: UISettings
   m_EditorClassIdentifier: 
   reproductionLimit: 5
-  agarLevel: 1000
+  agarLevel: 766
   ABRadius: 1
   splitThreshold: 2
   tetStrength: 0
   energy: 100
   numberOfCells: 10
-  LAI_1MutationRate: 0.1
+  LAI_1MutationRate: 0
   reproductionMutationRate: 0.001
   qsThresholdMutationRate: 0.1
