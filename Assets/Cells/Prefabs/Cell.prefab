@@ -126,10 +126,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UISettings: {fileID: 11400000, guid: a426bf94dcb5645e39fd235707bb6812, type: 2}
   panel: {fileID: 0}
+  cells_reproduced: 0
   LAI_1: {fileID: 94878864271759277, guid: e3a36dc3db0d64a2a8ad03c971e8bd4c, type: 3}
-  qsThreshold: 0
-  target_time_for_LAI_1: 4
-  target_time: 5
-  LAI_1MutationRate: 0
-  reproductionMutationRate: 0
-  qsThresholdMutationRate: 0
+  quorum_sensing_switch: 0
+  energy: 100
+  LAI_1MutationRate: 0.1
+  reproductionMutationRate: 0.1
+  qsThresholdMutationRate: 0.1

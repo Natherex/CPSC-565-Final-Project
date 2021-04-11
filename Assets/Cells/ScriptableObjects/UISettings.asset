@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UISettings
   m_EditorClassIdentifier: 
   reproductionLimit: 5
-  agarLevel: 10000
+  agarLevel: 1000
   ABRadius: 1
   splitThreshold: 2
-  tetStrength: 3
+  tetStrength: 0
   energy: 100
   numberOfCells: 10
   LAI_1MutationRate: 0.1

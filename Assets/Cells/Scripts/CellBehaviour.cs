@@ -67,17 +67,6 @@ public class CellBehaviour : MonoBehaviour
     }
 
 
-    public CellBehaviour(bool quorum_sensing_switch, int qsThreshold,
-            float target_time_for_LAI_1, int energy, int cells_reproduced, float target_time)
-    {
-        this.quorum_sensing_switch = quorum_sensing_switch;
-        this.qsThreshold = qsThreshold;
-        this.target_time_for_LAI_1 = target_time_for_LAI_1;
-        this.energy = energy;
-        this.cells_reproduced = cells_reproduced;
-        this.target_time = target_time;
-    }
-
     // Start is called before the first frame update
     void Start()
     {

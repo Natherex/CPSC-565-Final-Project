@@ -39,7 +39,7 @@ public class SimulationManager : Singleton<SimulationManager>
         {
             // Destroy all the cells and signalling molecules
             if (GameObjects[i].CompareTag("cell") || GameObjects[i].
-                CompareTag("LAI_1"))
+                CompareTag("LAI_1") || GameObjects[i].CompareTag("AntiBiotic1") || GameObjects[i].CompareTag("AntiBiotic2"))
             {
                 Destroy(GameObjects[i]);
             }
