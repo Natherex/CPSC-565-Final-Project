@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 554903915}
+      - m_Target: {fileID: 554903912}
         m_MethodName: closeSingCellStats
         m_Mode: 1
         m_Arguments:
@@ -1483,8 +1483,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 554903915}
-        m_MethodName: streakNewPlateWithChosenCell
+      - m_Target: {fileID: 554903912}
+        m_MethodName: streakPlate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2456,6 +2456,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 1902186914}
   panelText: {fileID: 144655404}
+  cellPrefab: {fileID: 2658244285270999867, guid: 2271dee4048c4384482c29437f7a4860,
+    type: 3}
 --- !u!4 &554903913
 Transform:
   m_ObjectHideFlags: 0

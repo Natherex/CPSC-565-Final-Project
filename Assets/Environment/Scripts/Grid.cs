@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Inspired by https://youtu.be/waEsGu--9P8 
-
+// Code assumes grid will always be 10 x 10, which is true for this simulation
 public class Grid
 {
     private int width;
@@ -58,7 +58,7 @@ public class Grid
                 if (cellX <= x && cellZ <= z)
                 {
                     //Debug.Log("cellX is "+cellX + " cellZ is " + cellZ);
-                    //Debug.Log("found position at " + x + " " + z+"\nthe nutrient level here is "+ nutrientLevelArray[x, z]);
+                    Debug.Log("found position at " + x + " " + z+"\nthe nutrient level here is "+ nutrientLevelArray[x, z]);
                     
                     nutrientLevel = nutrientLevelArray[x, z];
                     gridX = x;
@@ -74,12 +74,24 @@ public class Grid
     }
 
 
-
-
     public void subtractNutrientLevel(int gridX, int gridZ)
     {
         //Debug.Log("BEFORE "+nutrientLevelArray[gridX, gridZ] + " position: "+ gridX+" "+gridZ);
         nutrientLevelArray[gridX, gridZ] = nutrientLevelArray[gridX, gridZ] - 2;
         //Debug.Log("AFTER " + nutrientLevelArray[gridX, gridZ]);
+    }
+
+
+    public void resetNutrientLevels(int newAgarLevel)
+    {
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            for (int z = 0; z < gridArray.GetLength(1); z++)
+            {
+                // Reset each unit in grid with new agar level / 100
+                nutrientLevelArray[x, z] = (newAgarLevel / 100);
+
+            }
+        }
     }
 }

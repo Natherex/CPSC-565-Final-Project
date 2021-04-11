@@ -29,6 +29,23 @@ public class SimulationManager : Singleton<SimulationManager>
         spawnAntibiotic9();
     }
 
+
+    public void clearDish()
+    {
+        // Get all the game objects in the scene
+        GameObject[] GameObjects = FindObjectsOfType<GameObject>();
+
+        for (int i = 0; i < GameObjects.Length; i++)
+        {
+            // Destroy all the cells and signalling molecules
+            if (GameObjects[i].CompareTag("cell") || GameObjects[i].
+                CompareTag("LAI_1"))
+            {
+                Destroy(GameObjects[i]);
+            }
+        }
+    }
+
     private void createCells()
     {
         System.Random rand = new System.Random();

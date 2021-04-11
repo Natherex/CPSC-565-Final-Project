@@ -51,8 +51,10 @@ public  class UIEventHandler : MonoBehaviour
         agarNutLevelText = agarNutLevelField.GetComponent<Text>().text;
         if (!agarNutLevelText.Equals("") && Convert.ToInt32(agarNutLevelText) > 0)
         {
-            UISettings.agarLevel = 1 * Convert.ToInt32(agarNutLevelText);
-            // Way to update in simulation stats
+            int newLevel = 1 * Convert.ToInt32(agarNutLevelText);
+            UISettings.agarLevel = newLevel;
+            
+            SimulationManager.Instance.grid.resetNutrientLevels(newLevel);
         }
             
 
@@ -70,16 +72,25 @@ public  class UIEventHandler : MonoBehaviour
         energyText = energyField.GetComponent<Text>().text;
         if (!energyText.Equals("") && Convert.ToInt32(energyText) > 0)
         {
-            UISettings.energy = 1 * Convert.ToInt32(energyText);
-            // Way to update in simulation stats
+            int newEnergy = 1 * Convert.ToInt32(energyText);
+            UISettings.energy = newEnergy;
+            
+            GameObject[] cells = GameObject.FindGameObjectsWithTag("cell");
+            foreach (GameObject cell in cells)
+            {
+                CellBehaviour script = cell.GetComponent<CellBehaviour>();
+                script.energy = newEnergy;
+            }
         }
             
 
         cellCountText = cellCountField.GetComponent<Text>().text;
         if (!cellCountText.Equals("") && Convert.ToInt32(cellCountText) > 0)
         {
-            UISettings.numberOfCells = 1 * Convert.ToInt32(cellCountText);
-            // Way to update in simulation stats
+            int newCellCount = 1 * Convert.ToInt32(cellCountText);
+            UISettings.numberOfCells = newCellCount;
+            
+            // Check if we are
         }
            
 
@@ -102,20 +113,5 @@ public  class UIEventHandler : MonoBehaviour
 
     }
 
-    // Goes on the "x" button on the single cell stats panel
-    public void closeSingCellStats()
-    {
-        panel.SetActive(false);
-    }
-
-    // Restarts simulation with the chosen cell
-    public void streakNewPlateWithChosenCell()
-    {
-
-    }
-
-
-
-  
 
 }

@@ -15,7 +15,10 @@ MonoBehaviour:
   reproductionLimit: 5
   agarLevel: 10000
   ABRadius: 1
-  QSRadius: 1
+  splitThreshold: 2
   tetStrength: 3
-  energy: 4000
-  metabolism: 1
+  energy: 100
+  numberOfCells: 10
+  LAI_1MutationRate: 0.1
+  reproductionMutationRate: 0.001
+  qsThresholdMutationRate: 0.1

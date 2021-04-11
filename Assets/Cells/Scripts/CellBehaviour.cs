@@ -19,7 +19,7 @@ public class CellBehaviour : MonoBehaviour
     public GameObject panel;
 
     // Cell Reproduction Configuration
-    private int cells_reproduced = 0;
+    public int cells_reproduced = 0;
 
     // Quorum Sensing (QS) Configuration
     public GameObject LAI_1;
@@ -27,15 +27,15 @@ public class CellBehaviour : MonoBehaviour
     // Cell Movement/Life and Death Control
     private Rigidbody physicsBody;
     Vector3 force;
-    private bool quorum_sensing_switch = false;
+    public bool quorum_sensing_switch = false;
     
-    private int energy;
+    public int energy;
 
     private int maxEnergy = 100;
 
     //Evolutionary Algorithm Variables
     //TODO: make getters
-    private int qsThreshold = 5; // FOR EA??
+    private int qsThreshold = 20; // FOR EA??
     private float target_time_for_LAI_1 = 4.0f; // FOR EA    
     private float target_time = 5.0f; // FOR EA
 
@@ -49,6 +49,34 @@ public class CellBehaviour : MonoBehaviour
 
     // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
     // Ex. At 1 all cells that enter the antibiotic radius die. 
+
+
+    public void setQsThreshold(int qsThreshold)
+    {
+        this.qsThreshold = qsThreshold;
+    }
+
+    public void setTarget_time_for_LAI_1(float target_time_for_LAI_1)
+    {
+        this.target_time_for_LAI_1 = target_time_for_LAI_1;
+    }
+
+    public void setTarget_time(float target_time)
+    {
+        this.target_time = target_time;
+    }
+
+
+    public CellBehaviour(bool quorum_sensing_switch, int qsThreshold,
+            float target_time_for_LAI_1, int energy, int cells_reproduced, float target_time)
+    {
+        this.quorum_sensing_switch = quorum_sensing_switch;
+        this.qsThreshold = qsThreshold;
+        this.target_time_for_LAI_1 = target_time_for_LAI_1;
+        this.energy = energy;
+        this.cells_reproduced = cells_reproduced;
+        this.target_time = target_time;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -179,7 +207,7 @@ public class CellBehaviour : MonoBehaviour
         }
 
         //Debug.Log("nearby_molecules.count " + nearby_molecules.Count);
-        Debug.Log("num " + num);
+        //Debug.Log("num " + num);
 
         //Debug.Log(nearby_molecules.Count);
 
@@ -271,7 +299,7 @@ public class CellBehaviour : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(1); 
-            //Debug.Log("Consuming Energy.");
+            
 
             // Metabolism uses up energy
             energy -= 1;
@@ -286,6 +314,7 @@ public class CellBehaviour : MonoBehaviour
 
                 if (currentGridLevel > 2)
                 {
+                    Debug.Log("Consuming Energy.");
                     energy += 2;
                     SimulationManager.Instance.grid.subtractNutrientLevel(gridX, gridZ);
                     UISettings.agarLevel -= 2;
