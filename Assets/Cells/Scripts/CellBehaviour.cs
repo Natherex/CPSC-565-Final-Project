@@ -35,9 +35,13 @@ public class CellBehaviour : MonoBehaviour
 
     //Evolutionary Algorithm Variables
     //TODO: make getters
-    private int qsThreshold = 20; // FOR EA??
-    private float target_time_for_LAI_1 = 4.0f; // FOR EA    
-    private float target_time = 5.0f; // FOR EA
+    private int qsThreshold; // FOR EA??
+    private float target_time_for_LAI_1; // FOR EA    
+
+    private float target_time_for_LAI_1_counter;
+
+    private float target_time_counter;
+    private float target_time; // FOR EA
 
     // When you use these, don't actually use these variables here, but instead do "UISettings.qsThresholdMutationRate".
     // This way if they are changed mid simulation, they will update
@@ -70,6 +74,10 @@ public class CellBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target_time_for_LAI_1_counter = target_time_for_LAI_1;
+
+        target_time_counter = target_time;
+
         energy = UISettings.energy;
 
         physicsBody = GetComponent<Rigidbody>();
@@ -84,6 +92,7 @@ public class CellBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print("hello");
         movement();
         quorum_sensing();
         releaseSignallingMolecule();
@@ -143,23 +152,25 @@ public class CellBehaviour : MonoBehaviour
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, UISettings.qsThresholdMutationRate),
-                mutateFloat(target_time_for_LAI_1 ,LAI_1MutationRate), mutateFloat(target_time,reproductionMutationRate));
+                mutateFloat(target_time_for_LAI_1 ,UISettings.LAI_1MutationRate), mutateFloat(target_time,UISettings.reproductionMutationRate));
+
             SimulationStats.Instance.cellCount++;
         }
     }
     private int mutateInt(int original, float mutationRate)
     {
-        //int range = (int)(mutationRate*10);
-        int range = 2;
+        int range = (int)(mutationRate*10);
+        //range = 2;
         int modifier = Random.Range(-range, range);
+        
         return Mathf.Abs(original + modifier);
     }
     private float mutateFloat(float original, float mutationRate)
     {
-        //float range = original*mutationRate;
-        float range = 2f;
-        float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100;
-        
+        float range = original*mutationRate;
+        //range = 2f;
+        float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100f;
+        Debug.Log(modifier);
         return Mathf.Abs(original + modifier);
     }
     public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
@@ -167,6 +178,8 @@ public class CellBehaviour : MonoBehaviour
         this.qsThreshold = qsThreshold;
         this.target_time_for_LAI_1 = target_time_for_LAI_1;
         this.target_time = target_time;
+        target_time_for_LAI_1_counter = target_time_for_LAI_1;
+        target_time_counter = target_time;
     }
 
     /*
@@ -218,10 +231,11 @@ public class CellBehaviour : MonoBehaviour
             else
             {
                 // Wait for some time before spawning
-                target_time -= Time.deltaTime;
-                if (target_time <= 0.0f)
+                target_time_counter -= Time.deltaTime;
+
+                if (target_time_counter <= 0.0f)
                 {
-                    target_time = 5.0f;
+                    target_time_counter = target_time;
                     Debug.Log("Creating New Bacteria.");
 
                     if (cells_reproduced < UISettings.reproductionLimit
@@ -324,15 +338,15 @@ public class CellBehaviour : MonoBehaviour
     // Cell releases a signalling molecule at a certain rate
     private void releaseSignallingMolecule()
     {
-        target_time_for_LAI_1 -= Time.deltaTime;
+        target_time_for_LAI_1_counter -= Time.deltaTime;
 
-        if (target_time_for_LAI_1 <= 0.0f)
+        if (target_time_for_LAI_1_counter <= 0.0f)
         {
             float x = transform.position.x + ((Mathf.PerlinNoise(Time.time +
                 transform.position.x , 2)-0.5f)*2);
             float y = 1;
             float z = transform.position.z;
-            target_time_for_LAI_1 = 1.0f;
+            target_time_for_LAI_1_counter = target_time_for_LAI_1;
             GameObject sm = Instantiate(LAI_1, new Vector3(x, y, z), Quaternion.identity);
 
             sm.name = "LAI-1";

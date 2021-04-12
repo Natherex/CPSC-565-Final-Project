@@ -54,6 +54,8 @@ public class SimulationManager : Singleton<SimulationManager>
             GameObject newCell = Instantiate(cell) as GameObject;
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
+            newCell.GetComponent<CellBehaviour>().setEA(20,2,5);
+            newCell.GetComponent<Renderer>().material.color = Color.white;
             // TODO: Update the location where cells first spawn and change the random we use to System
             newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
         }
