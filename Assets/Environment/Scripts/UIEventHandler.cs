@@ -69,7 +69,7 @@ public  class UIEventHandler : MonoBehaviour
             UISettings.splitThreshold = 1 * Convert.ToInt32(spText);
 
         // Variable set to wherever the slider is
-         UISettings.tetStrength = tetStrengthSlider.value;
+         UISettings.tetResistance = tetStrengthSlider.value;
 
         energyText = energyField.GetComponent<Text>().text;
         if (!energyText.Equals("") && Convert.ToInt32(energyText) > 0)

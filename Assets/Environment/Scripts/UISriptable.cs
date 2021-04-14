@@ -21,7 +21,7 @@ public class UISriptable : ScriptableObject
     [SerializeField] public float splitThreshold = 2f;
 
     [Tooltip("How strong/lethal tetracycline is against cells\nProbability a cell in its radius will die")]
-    [SerializeField] public float tetStrength = 0.5f;
+    [SerializeField] public float tetResistance = 0.5f;
 
     [Tooltip("How much energy the cells each have")]
     [SerializeField] public int energy = 100;

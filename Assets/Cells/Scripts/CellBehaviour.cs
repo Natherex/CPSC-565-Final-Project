@@ -38,14 +38,10 @@ public class CellBehaviour : MonoBehaviour
     private float targetTimeLAI_1; // How quickly cell releases a new signalling molecule. In seconds   
     private float targetTimeLAI_1Counter;
 
+    private float targetTimeReproduction; // How quickly cell reproduces another cell. In seconds
     private float targetTimeReproductionCounter;
-    private float targetTimeReproduction; // How quickly cell reproduces another cell. In seconds   
 
     public System.Random rand;
-
-    // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
-    // Ex. At 1 all cells that enter the antibiotic radius die. 
-
 
     public void setQsThreshold(int qsThreshold)
     {
@@ -278,7 +274,7 @@ public class CellBehaviour : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if(hitCollider.tag == "AntiBiotic2" && Random.Range(0f,1f) <= (UISettings.tetStrength))
+            if(hitCollider.tag == "AntiBiotic2" && Random.Range(0f,1f) >= (UISettings.tetResistance))
             {
                 return true;
             }
