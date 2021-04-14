@@ -5,7 +5,7 @@ public class SignallingMoleculeController : MonoBehaviour
 {
     private Rigidbody physicsBody;
     private Vector3 force;
-    private float target_time_until_molecule_removed = 3.0f;
+    private float target_time_until_molecule_removed = 5.0f;
     private Vector3 initialPosition;
     private float diffusionRadius = 1.0f;
 

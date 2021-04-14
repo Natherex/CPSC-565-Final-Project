@@ -58,7 +58,7 @@ public class Grid
                 if (cellX <= x && cellZ <= z)
                 {
                     //Debug.Log("cellX is "+cellX + " cellZ is " + cellZ);
-                    Debug.Log("found position at " + x + " " + z+"\nthe nutrient level here is "+ nutrientLevelArray[x, z]);
+                   // Debug.Log("found position at " + x + " " + z+"\nthe nutrient level here is "+ nutrientLevelArray[x, z]);
                     
                     nutrientLevel = nutrientLevelArray[x, z];
                     gridX = x;

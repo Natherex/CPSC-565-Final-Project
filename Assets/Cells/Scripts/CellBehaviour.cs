@@ -92,7 +92,6 @@ public class CellBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("hello");
         movement();
         quorum_sensing();
         releaseSignallingMolecule();
@@ -170,7 +169,6 @@ public class CellBehaviour : MonoBehaviour
         float range = original*mutationRate;
         //range = 2f;
         float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100f;
-        Debug.Log(modifier);
         return Mathf.Abs(original + modifier);
     }
     public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
