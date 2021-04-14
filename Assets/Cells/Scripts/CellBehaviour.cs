@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*
  * Authors: Isha Afzaal, Sammy Elrafih, Ainslie Veltheon
- * Info: CellBehavior.cs specifies agent behaviour in the quorum-sensing system of l. pneumophila.
+ * CellBehavior.cs specifies agent behaviour in the quorum-sensing system of L. pneumophila.
  *       Cells use quorum-sensing to understand their population's cell density. Once the cell density passes a
  *       certain threshold, agents start exhibiting emergent behaviour.
  * References:
@@ -13,42 +13,34 @@ using UnityEngine;
  */
 public class CellBehaviour : MonoBehaviour
 {
-    // Reference to scriptable object holding data
-    public UISriptable UISettings;
-
-    public GameObject panel;
-
-    // Cell Reproduction Configuration
-    public int cells_reproduced = 0;
-
-    // Quorum Sensing (QS) Configuration
-    public GameObject LAI_1;
     
-    // Cell Movement/Life and Death Control
+    public UISriptable UISettings; // Reference to scriptable object holding data
+
+    public GameObject panel;  // Reference to the single cell UI panel
+
+    public int cellsReproduced = 0; // Keep track of how many times a cell reproduces
+
+    public GameObject LAI_1;  // Prefab of the signalling molecule
+
     private Rigidbody physicsBody;
+
     Vector3 force;
-    public bool quorum_sensing_switch = false;
+
+    public bool qsOn = false; // Keeps track of when a cell senses a quorum
     
-    public int energy;
+    public int energy; // How much energy a cell has at any given moment
 
-    private int maxEnergy = 100;
+    private int maxEnergy = 100; 
 
-    //Evolutionary Algorithm Variables
     //TODO: make getters
-    private int qsThreshold; // FOR EA??
-    private float target_time_for_LAI_1; // FOR EA    
+    private int qsThreshold; // How many signalling molecules a cell needs to sense before sensing a quorum
 
-    private float target_time_for_LAI_1_counter;
+    private float targetTimeLAI_1; // How quickly cell releases a new signalling molecule. In seconds   
+    private float targetTimeLAI_1Counter;
 
-    private float target_time_counter;
-    private float target_time; // FOR EA
+    private float targetTimeReproductionCounter;
+    private float targetTimeReproduction; // How quickly cell reproduces another cell. In seconds   
 
-    // When you use these, don't actually use these variables here, but instead do "UISettings.qsThresholdMutationRate".
-    // This way if they are changed mid simulation, they will update
-    // The percentage is passed in from a scale of 0 to 1. Ex. 0.1 means 10%
-    public float LAI_1MutationRate;
-    public float reproductionMutationRate;
-    public float qsThresholdMutationRate;
     public System.Random rand;
 
     // UISettings.tetStrength (a value between 0 and 1) is the probability a cell within the abRadius will die.
@@ -60,23 +52,23 @@ public class CellBehaviour : MonoBehaviour
         this.qsThreshold = qsThreshold;
     }
 
-    public void setTarget_time_for_LAI_1(float target_time_for_LAI_1)
+    public void setTarget_time_for_LAI_1(float targetTimeLAI_1)
     {
-        this.target_time_for_LAI_1 = target_time_for_LAI_1;
+        this.targetTimeLAI_1 = targetTimeLAI_1;
     }
 
-    public void setTarget_time(float target_time)
+    public void setTarget_time(float targetTimeReproduction)
     {
-        this.target_time = target_time;
+        this.targetTimeReproduction = targetTimeReproduction;
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        target_time_for_LAI_1_counter = target_time_for_LAI_1;
+        targetTimeLAI_1Counter = targetTimeLAI_1;
 
-        target_time_counter = target_time;
+        targetTimeReproductionCounter = targetTimeReproduction;
 
         energy = UISettings.energy;
 
@@ -93,7 +85,7 @@ public class CellBehaviour : MonoBehaviour
     void Update()
     {
         movement();
-        quorum_sensing();
+        quorumSensing();
         releaseSignallingMolecule();
     }
 
@@ -118,11 +110,11 @@ public class CellBehaviour : MonoBehaviour
      * For now, will simply change cell colours
      * Here will be antibiotic resistence I think
      */
-    private void emergent_behavior ()
+    private void activateEmergentBehavior ()
     {
         // Change the current agent cell's colour
         GetComponent<Renderer>().material.color = Color.red;
-        quorum_sensing_switch = true;
+        qsOn = true;
     }
 
     /*
@@ -130,11 +122,11 @@ public class CellBehaviour : MonoBehaviour
      * For now, will simply change cell colours
      * Here will be antibiotic resistence I think
      */
-    private void deactivate_emergent_behavior ()
+    private void deactivateEmergentBehavior ()
     {
         // Change the current agent cell's colour
         GetComponent<Renderer>().material.color = Color.white;
-        quorum_sensing_switch = false;
+        qsOn = false;
     }
 
 
@@ -151,7 +143,7 @@ public class CellBehaviour : MonoBehaviour
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
             newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, UISettings.qsThresholdMutationRate),
-                mutateFloat(target_time_for_LAI_1 ,UISettings.LAI_1MutationRate), mutateFloat(target_time,UISettings.reproductionMutationRate));
+                mutateFloat(targetTimeLAI_1 ,UISettings.LAI_1MutationRate), mutateFloat(targetTimeReproduction,UISettings.reproductionMutationRate));
 
             SimulationStats.Instance.cellCount++;
         }
@@ -171,20 +163,20 @@ public class CellBehaviour : MonoBehaviour
         float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100f;
         return Mathf.Abs(original + modifier);
     }
-    public void setEA(int qsThreshold, float target_time_for_LAI_1, float target_time)
+    public void setEA(int qsThreshold, float targetTimeLAI_1, float targetTimeReproduction)
     {
         this.qsThreshold = qsThreshold;
-        this.target_time_for_LAI_1 = target_time_for_LAI_1;
-        this.target_time = target_time;
-        target_time_for_LAI_1_counter = target_time_for_LAI_1;
-        target_time_counter = target_time;
+        this.targetTimeLAI_1 = targetTimeLAI_1;
+        this.targetTimeReproduction = targetTimeReproduction;
+        targetTimeLAI_1Counter = targetTimeLAI_1;
+        targetTimeReproductionCounter = targetTimeReproduction;
     }
 
     /*
      * Quorum-sensing: Agents detect cell density and exhibit emergent 
      * behavior if threshold reached or reproduce if threshold not reached
      */
-    private void quorum_sensing ()
+    private void quorumSensing ()
     {
         
 
@@ -212,14 +204,14 @@ public class CellBehaviour : MonoBehaviour
         //Debug.Log(nearby_molecules.Count);
 
         // QS Step 2: Check surrounding signalling molecule concentration
-        if (!quorum_sensing_switch)
+        if (!qsOn)
         {
             // Case 1: Molecule concentration (therefore cell density)
             // has reached the threshold value - emergent behaviour 
             if (num >= qsThreshold)
             {
                 //Debug.Log("Activating emergent behavior");
-                emergent_behavior();
+                activateEmergentBehavior();
 
                 // Cells produce more LAI_1 with higher population densities
                 releaseSignallingMolecule();
@@ -229,14 +221,14 @@ public class CellBehaviour : MonoBehaviour
             else
             {
                 // Wait for some time before spawning
-                target_time_counter -= Time.deltaTime;
+                targetTimeReproductionCounter -= Time.deltaTime;
 
-                if (target_time_counter <= 0.0f)
+                if (targetTimeReproductionCounter <= 0.0f)
                 {
-                    target_time_counter = target_time;
+                    targetTimeReproductionCounter = targetTimeReproduction;
                     Debug.Log("Creating New Bacteria.");
 
-                    if (cells_reproduced < UISettings.reproductionLimit
+                    if (cellsReproduced < UISettings.reproductionLimit
                         && energy > UISettings.splitThreshold)
                     {
                         if(isAntiBiotic1Present())
@@ -247,7 +239,7 @@ public class CellBehaviour : MonoBehaviour
                             // Create new game object
                             createCell(transform.position);
 
-                            cells_reproduced++;
+                            cellsReproduced++;
 
                             energy -= 10;
                         }
@@ -257,7 +249,7 @@ public class CellBehaviour : MonoBehaviour
         }else{
             if (num < qsThreshold)
             {
-                deactivate_emergent_behavior();
+                deactivateEmergentBehavior();
             }
         }
     }
@@ -336,15 +328,15 @@ public class CellBehaviour : MonoBehaviour
     // Cell releases a signalling molecule at a certain rate
     private void releaseSignallingMolecule()
     {
-        target_time_for_LAI_1_counter -= Time.deltaTime;
+        targetTimeLAI_1Counter -= Time.deltaTime;
 
-        if (target_time_for_LAI_1_counter <= 0.0f)
+        if (targetTimeLAI_1Counter <= 0.0f)
         {
             float x = transform.position.x + ((Mathf.PerlinNoise(Time.time +
                 transform.position.x , 2)-0.5f)*2);
             float y = 1;
             float z = transform.position.z;
-            target_time_for_LAI_1_counter = target_time_for_LAI_1;
+            targetTimeLAI_1Counter = targetTimeLAI_1;
             GameObject sm = Instantiate(LAI_1, new Vector3(x, y, z), Quaternion.identity);
 
             sm.name = "LAI-1";
@@ -356,7 +348,7 @@ public class CellBehaviour : MonoBehaviour
     // When clicked send stats to the panel to display
     private void OnMouseDown()
     {
-        SingleCellUI.Instance.openPanel(quorum_sensing_switch, qsThreshold,
-            target_time_for_LAI_1, energy, cells_reproduced, target_time);
+        SingleCellUI.Instance.openPanel(qsOn, qsThreshold,
+            targetTimeLAI_1, energy, cellsReproduced, targetTimeReproduction);
     }
 }

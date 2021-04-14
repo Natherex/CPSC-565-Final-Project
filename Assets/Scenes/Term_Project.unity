@@ -2448,7 +2448,7 @@ GameObject:
   - component: {fileID: 508068303}
   - component: {fileID: 508068302}
   m_Layer: 5
-  m_Name: TetracyclineStrength
+  m_Name: TetracyclineResistence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2505,7 +2505,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tetracycline strength
+  m_Text: Tetracycline resistence
 --- !u!222 &508068303
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4089,7 +4089,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -81,11 +81,11 @@ public class SingleCellUI : Singleton<SingleCellUI>
 
             script.setSeed(rand.Next());
 
-            script.quorum_sensing_switch = isQSTriggered;
+            script.qsOn = isQSTriggered;
             script.setQsThreshold(qsThreshold);
             script.setTarget_time_for_LAI_1(target_time_for_LAI_1);
             script.energy = energy;
-            script.cells_reproduced = cellsReproduced;
+            script.cellsReproduced = cellsReproduced;
             script.setTarget_time(target_time);
         }
         
