@@ -76,7 +76,7 @@ public class CellBehaviour : MonoBehaviour
 
         panel = GameObject.FindGameObjectWithTag("singleCellStats");
 
-        StartCoroutine(consume_energy());
+        StartCoroutine(consumeEnergy());
 
     }
 
@@ -85,8 +85,8 @@ public class CellBehaviour : MonoBehaviour
     void Update()
     {
         movement();
-        quorumSensing();
-        releaseSignallingMolecule();
+        quorumSensingFromLqsS();
+        releaseSignallingMoleculeFromLqsA();
     }
 
     public void setSeed(int seed)
@@ -110,7 +110,7 @@ public class CellBehaviour : MonoBehaviour
      * For now, will simply change cell colours
      * Here will be antibiotic resistence I think
      */
-    private void activateEmergentBehavior ()
+    private void activateEmergentBehaviorFromLqsR ()
     {
         // Change the current agent cell's colour
         GetComponent<Renderer>().material.color = Color.red;
@@ -176,7 +176,7 @@ public class CellBehaviour : MonoBehaviour
      * Quorum-sensing: Agents detect cell density and exhibit emergent 
      * behavior if threshold reached or reproduce if threshold not reached
      */
-    private void quorumSensing ()
+    private void quorumSensingFromLqsS ()
     {
         
 
@@ -211,10 +211,10 @@ public class CellBehaviour : MonoBehaviour
             if (num >= qsThreshold)
             {
                 //Debug.Log("Activating emergent behavior");
-                activateEmergentBehavior();
+                activateEmergentBehaviorFromLqsR();
 
                 // Cells produce more LAI_1 with higher population densities
-                releaseSignallingMolecule();
+                releaseSignallingMoleculeFromLqsA();
             }
 
             // Case 2: Cell density lower than threshold value - reproduce a new cell
@@ -287,7 +287,7 @@ public class CellBehaviour : MonoBehaviour
     }
 
     // 
-    IEnumerator consume_energy()
+    IEnumerator consumeEnergy()
     {
         while(true)
         {
@@ -326,7 +326,7 @@ public class CellBehaviour : MonoBehaviour
 
 
     // Cell releases a signalling molecule at a certain rate
-    private void releaseSignallingMolecule()
+    private void releaseSignallingMoleculeFromLqsA()
     {
         targetTimeLAI_1Counter -= Time.deltaTime;
 
