@@ -1605,7 +1605,7 @@ MonoBehaviour:
     Press "2" for tetracycline
 
     Press
-    "9" while cursor on a dick to remove it'
+    "9" while cursor on a disk to remove it'
 --- !u!222 &309449283
 CanvasRenderer:
   m_ObjectHideFlags: 0
