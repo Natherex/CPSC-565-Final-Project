@@ -15,7 +15,6 @@ public class SingleCellUI : Singleton<SingleCellUI>
     private int qsThreshold;
     private float target_time_for_LAI_1;
     private int energy;
-    private int cellsReproduced;
     private float target_time;
 
     private bool cellClicked = false;
@@ -32,7 +31,6 @@ public class SingleCellUI : Singleton<SingleCellUI>
         this.qsThreshold = qsThreshold;
         this.target_time_for_LAI_1 = target_time_for_LAI_1;
         this.energy = energy;
-        this.cellsReproduced = cellsReproduced;
         this.target_time = target_time;
 
         if (panel != null)
@@ -66,27 +64,32 @@ public class SingleCellUI : Singleton<SingleCellUI>
         {
             SimulationManager.Instance.clearDish();
 
-            // Reset SO
+            for (int i = 0; i<5; i++)
+            {
+                
+                // Reset SO
 
-            System.Random rand = new System.Random();
+                System.Random rand = new System.Random();
 
-            // Instan the chosen cell
-            GameObject newCell = Instantiate(cellPrefab) as GameObject;
+                // Instan the chosen cell
+                GameObject newCell = Instantiate(cellPrefab) as GameObject;
+
+
+                // TODO: Update the location where cells first spawn and change the random we use to System
+                newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
+
+                CellBehaviour script = newCell.GetComponent<CellBehaviour>();
+
+                script.setSeed(rand.Next());
+
+                script.qsOn = isQSTriggered;
+                script.setQsThreshold(qsThreshold);
+                script.setTarget_time_for_LAI_1(target_time_for_LAI_1);
+                script.energy = energy;
+                script.cellsReproduced = 0;
+                script.setTarget_time(target_time);
+            }
             
-
-            // TODO: Update the location where cells first spawn and change the random we use to System
-            newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
-
-            CellBehaviour script = newCell.GetComponent<CellBehaviour>();
-
-            script.setSeed(rand.Next());
-
-            script.qsOn = isQSTriggered;
-            script.setQsThreshold(qsThreshold);
-            script.setTarget_time_for_LAI_1(target_time_for_LAI_1);
-            script.energy = energy;
-            script.cellsReproduced = 0;
-            script.setTarget_time(target_time);
         }
         
     }
