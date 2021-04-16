@@ -118,7 +118,7 @@ public class SimulationManager : Singleton<SimulationManager>
     }
 
     /*
-     * What is this 9??
+     * Delete AntiBiotics by pressing 9
      */
     private void spawnAntibiotic9()
     {
