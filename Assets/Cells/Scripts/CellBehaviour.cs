@@ -30,8 +30,10 @@ public class CellBehaviour : MonoBehaviour
     
     public int energy; // How much energy a cell has at any given moment
 
+    public float stress = 10;
     private int maxEnergy = 100; 
 
+    public int chanceOfDeath = 99;
     //TODO: make getters
     private int qsThreshold; // How many signalling molecules a cell needs to sense before sensing a quorum
 
@@ -41,6 +43,7 @@ public class CellBehaviour : MonoBehaviour
     private float targetTimeReproduction; // How quickly cell reproduces another cell. In seconds
     private float targetTimeReproductionCounter;
 
+    
     public System.Random rand;
 
     public void setQsThreshold(int qsThreshold)
@@ -313,6 +316,13 @@ public class CellBehaviour : MonoBehaviour
 
             // Cells die upon having no energy or by chance being in presence of antiBioticand are removed from the simulation
             if (energy <= 0 || isAntiBiotic2LethalPresent())
+            {
+                Destroy(gameObject);
+                SimulationStats.Instance.cellCount--;
+            }
+    
+            stress -= Time.deltaTime;
+            if(stress <= 0)
             {
                 Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;
