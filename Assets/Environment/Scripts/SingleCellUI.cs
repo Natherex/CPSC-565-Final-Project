@@ -85,7 +85,7 @@ public class SingleCellUI : Singleton<SingleCellUI>
             script.setQsThreshold(qsThreshold);
             script.setTarget_time_for_LAI_1(target_time_for_LAI_1);
             script.energy = energy;
-            script.cellsReproduced = cellsReproduced;
+            script.cellsReproduced = 0;
             script.setTarget_time(target_time);
         }
         
