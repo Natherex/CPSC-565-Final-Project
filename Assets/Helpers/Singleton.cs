@@ -1,7 +1,9 @@
-﻿/*
- * Code pulled from https://wiki.unity3d.com/index.php/Singleton 
- * Taken from A3 CPSC 565!!
- */
+﻿/**
+ * Authors: Sammy Elrafih, Ainslie Veltheon, Isha Afzaal
+ * Singleton.cs is used to maintain system-wide variables
+ * Reference: https://wiki.unity3d.com/index.php/Singleton 
+ **/
+
 using UnityEngine;
 
 /// <summary>
@@ -54,12 +56,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;
     }
-
 
     private void OnDestroy()
     {
