@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/**
+ * Authors: Sammy Elrafih, Ainslie Veltheon, Isha Afzaal
+ * UISriptable.cs is used for the parameter UI
+ * Reference: https://www.youtube.com/watch?v=aPXvoWVabPY 
+ **/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -39,5 +45,3 @@ public class UISriptable : ScriptableObject
     [SerializeField] public float qsThresholdMutationRadius = 0.1f;
 
 }
-
-// https://www.youtube.com/watch?v=aPXvoWVabPY 

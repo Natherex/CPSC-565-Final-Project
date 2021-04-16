@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * Authors: Sammy Elrafih, Ainslie Veltheon, Isha Afzaal
+ * SimulationManager.cs is used to do operations on the petri-dish; it can
+ * clear the dish, create cells and spawn antibiotics
+ **/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -14,14 +20,18 @@ public class SimulationManager : Singleton<SimulationManager>
     Ray ray;
     RaycastHit location;
 
-    // Start is called before the first frame update
+    /*
+     * Initialization
+     */
     void Start()
     {
         createCells();
         grid = new Grid(10, 10, UISettings.agarLevel / 100);
     }
 
-    // Update is called once per frame
+    /*
+     * Spawn antibiotics
+     */
     void Update()
     {
         spawnAntibiotic1();  
@@ -29,7 +39,9 @@ public class SimulationManager : Singleton<SimulationManager>
         spawnAntibiotic9();
     }
 
-
+    /*
+     * Empty the petri-dish
+     */
     public void clearDish()
     {
         // Get all the game objects in the scene
@@ -50,6 +62,9 @@ public class SimulationManager : Singleton<SimulationManager>
         grid.resetNutrientLevels(1000);
     }
 
+    /*
+     * Create cells on the petri-dish
+     */
     private void createCells()
     {
         System.Random rand = new System.Random();
@@ -65,6 +80,9 @@ public class SimulationManager : Singleton<SimulationManager>
         }
     }
 
+    /*
+     * Spawn antibiotic type #1 on the dish, according to where the user's mouse is pointing to
+     */
     private void spawnAntibiotic1()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,6 +97,10 @@ public class SimulationManager : Singleton<SimulationManager>
             }
         }
     }
+
+    /*
+     * Spawn antibiotic type #2, according to where the user's mouse is pointint to
+     */
     private void spawnAntibiotic2()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -95,7 +117,9 @@ public class SimulationManager : Singleton<SimulationManager>
         }
     }
 
-    // What is this 9??
+    /*
+     * What is this 9??
+     */
     private void spawnAntibiotic9()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -109,8 +133,4 @@ public class SimulationManager : Singleton<SimulationManager>
             }
         }
     }
-
-
-    
-
 }

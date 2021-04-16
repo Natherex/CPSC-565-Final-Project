@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿/**
+ * CameraBehaviour is used to control and provide camera movement to the
+ * user in the simulation. Gives a bird's-eye-view of the petri-dish
+ * Reference: All code is taken from CPSC 565 Lecture 8 with a few edits
+ **/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
-* All code is taken from CPSC 565 Lecture 8 w/a few edits!!
-**/
 public class CameraBehaviour : MonoBehaviour
 {
     private Vector3 lastMouse = new Vector3(255, 255, 255);
@@ -16,34 +19,20 @@ public class CameraBehaviour : MonoBehaviour
 
     Camera mainCam;
 
+    /*
+     * Initialization
+     */
     private void Start()
     {
         mainCam = GetComponent<Camera>();
     }
 
 
-    // Update is called once per frame
+    /*
+     * Update is called once per frame
+     */
     void Update()
     {
-        //// Get the change in mouse position
-        //lastMouse = Input.mousePosition - lastMouse;
-
-        //// Adjust 2D vectors for camera sensitivity
-        //lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0);
-
-        //// Project camera's rotation onto the 2D coordinates of the mouse position
-        //lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x, transform.eulerAngles.y + lastMouse.y, 0);
-
-        //// If left click
-        //if (Input.GetMouseButton(0))
-        //{
-        //    transform.eulerAngles = lastMouse;
-        //}
-
-        //lastMouse = Input.mousePosition;
-
-
-        // Keyboard commands
         // p is the direction we should be moving based on input
         Vector3 p = getBaseInput();
 
@@ -60,7 +49,6 @@ public class CameraBehaviour : MonoBehaviour
             p.y = Mathf.Clamp(p.y, -maxShift, maxShift);
             p.z = Mathf.Clamp(p.z, -maxShift, maxShift);
         }
-        // Not running
         else
         {
             totalRun = Mathf.Clamp(totalRun * 0.5f, 1f, 1000f);
@@ -87,9 +75,9 @@ public class CameraBehaviour : MonoBehaviour
 
     }
 
-
-
-    // Get keyboard letter values and adjust direction based on them
+    /*
+     * Get keyboard letter values and adjust direction based on them
+     */
     private Vector3 getBaseInput()
     {
         Vector3 p_Velocity = new Vector3();
@@ -120,6 +108,5 @@ public class CameraBehaviour : MonoBehaviour
         }
         // Gives what the direction/velocity should be
         return p_Velocity;
-
     }
 }

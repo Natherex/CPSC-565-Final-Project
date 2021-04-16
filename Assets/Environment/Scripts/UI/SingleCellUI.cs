@@ -1,14 +1,19 @@
-﻿using UnityEngine;
+﻿/**
+ * Authors: Sammy Elrafih, Ainslie Veltheon, Isha Afzaal
+ * SingleCellUI.cs is used to manage the UI that details 
+ * data on single cells. When users click on a cell, they can see the
+ * cell's details.
+ **/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-// Handles the single cell UI panel
 public class SingleCellUI : Singleton<SingleCellUI>
 {
     public GameObject panel;
     public Text panelText;
-
     public GameObject cellPrefab;
 
     private bool isQSTriggered;
@@ -16,11 +21,11 @@ public class SingleCellUI : Singleton<SingleCellUI>
     private float target_time_for_LAI_1;
     private int energy;
     private float target_time;
-
     private bool cellClicked = false;
 
-
-    // What should be displayed when the panel opens
+    /*
+     * What should be displayed when the panel opens
+     */
     public void openPanel(bool isQSTriggered, int qsThreshold,
         float target_time_for_LAI_1, int energy, int cellsReproduced,
         float target_time)
@@ -36,52 +41,44 @@ public class SingleCellUI : Singleton<SingleCellUI>
         if (panel != null)
         {
             panel.SetActive(true);
-
             panelText.text = "<b>QS triggered: </b>" + isQSTriggered.ToString()
                 + "\n\n<b>QS threshold: </b>" + qsThreshold.ToString()
                 + "\n\n<b>LAI-1 production rate: </b>" + target_time_for_LAI_1.ToString()
                 + "\n\n<b>Energy: </b>" + energy.ToString()
                 + "\n\n<b>Cells reproduced: </b>" + cellsReproduced.ToString()
                 + "\n\n<b>Reproduction rate(if enough energy): </b>" + target_time;
-
         };
     }
 
-
-    // Goes on the "x" button on the single cell stats panel
+    /*
+     * Goes on the "x" button on the single cell stats panel
+     */
     public void closeSingCellStats()
     {
         panel.SetActive(false);
     }
 
-
-
-    // Restarts simulation with the chosen cell
+    /*
+     * Restarts simulation with the chosen cell
+     */
     public void streakPlate()
     {
         // If this one variable is not null, the rest should be good too
         if (cellClicked)
         {
             SimulationManager.Instance.clearDish();
-
             for (int i = 0; i<5; i++)
-            {
-                
+            {                
                 // Reset SO
-
                 System.Random rand = new System.Random();
 
-                // Instan the chosen cell
+                // Instantiate the chosen cell
                 GameObject newCell = Instantiate(cellPrefab) as GameObject;
-
 
                 // TODO: Update the location where cells first spawn and change the random we use to System
                 newCell.transform.position = new Vector3(Random.Range(0, 10), 1, Random.Range(0, 8));
-
                 CellBehaviour script = newCell.GetComponent<CellBehaviour>();
-
                 script.setSeed(rand.Next());
-
                 script.qsOn = isQSTriggered;
                 script.setQsThreshold(qsThreshold);
                 script.setTarget_time_for_LAI_1(target_time_for_LAI_1);
@@ -93,6 +90,4 @@ public class SingleCellUI : Singleton<SingleCellUI>
         }
         
     }
-
-
 }

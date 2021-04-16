@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿/**
+ * Authors: Sammy Elrafih, Ainslie Veltheon, Isha Afzaal
+ * UIEventHandler.cs handles actions done in the UIs of the simulation.
+ **/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System;
 
-// Handles actions done in the UIs of the simulation
 public  class UIEventHandler : MonoBehaviour
 {
     // Reference to our scriptable object
@@ -39,8 +43,10 @@ public  class UIEventHandler : MonoBehaviour
 
     public GameObject canvasForDocumentation;
 
-    // This method goes on the submit button
-    // Saves the values inputted by user to the scriptable object
+    /*
+     * This method goes on the submit button
+     * Saves the values inputted by user to the scriptable object
+     */
     public  void storeValues()
     {
         int txt;
@@ -59,7 +65,6 @@ public  class UIEventHandler : MonoBehaviour
             SimulationManager.Instance.grid.resetNutrientLevels(newLevel);
         }
             
-
         abRadiusText = abRadiusField.GetComponent<Text>().text;
         if (!abRadiusText.Equals("") && Convert.ToInt32(abRadiusText) > 0)
             UISettings.ABRadius = 1 * Convert.ToInt32(abRadiusText);
@@ -85,17 +90,13 @@ public  class UIEventHandler : MonoBehaviour
             }
         }
             
-
         cellCountText = cellCountField.GetComponent<Text>().text;
         if (!cellCountText.Equals("") && Convert.ToInt32(cellCountText) > 0)
         {
             int newCellCount = 1 * Convert.ToInt32(cellCountText);
-            UISettings.numberOfCells = newCellCount;
-            
-            // Check if we are
+            UISettings.numberOfCells = newCellCount;            
         }
-           
-
+          
         // Different variables affected by the sliders value depending on which
         // dropdown is chosen
         if (dropDown.value == 0)
@@ -106,10 +107,11 @@ public  class UIEventHandler : MonoBehaviour
 
         else if (dropDown.value == 2)
             UISettings.qsThresholdMutationRadius = mutationSlider.value;
-
     }
 
-    // Helps user understand parameters in the simulation
+    /*
+     * Helps user understand parameters in the simulation
+     */
     public void showDocumentation()
     {
         canvasForDocumentation.SetActive(true);
@@ -119,6 +121,4 @@ public  class UIEventHandler : MonoBehaviour
     {
         canvasForDocumentation.SetActive(false);
     }
-
-
 }
