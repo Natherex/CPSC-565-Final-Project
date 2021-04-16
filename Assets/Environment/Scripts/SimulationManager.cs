@@ -44,6 +44,10 @@ public class SimulationManager : Singleton<SimulationManager>
                 Destroy(GameObjects[i]);
             }
         }
+
+        // Reset agar for a new plate.
+        UISettings.agarLevel = 1000;
+        grid.resetNutrientLevels(1000);
     }
 
     private void createCells()

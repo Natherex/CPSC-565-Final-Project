@@ -90,6 +90,7 @@ public class Grid
             {
                 // Reset each unit in grid with new agar level / 100
                 nutrientLevelArray[x, z] = (newAgarLevel / 100);
+                
 
             }
         }
