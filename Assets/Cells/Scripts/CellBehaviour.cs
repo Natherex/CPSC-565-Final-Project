@@ -1,4 +1,4 @@
-﻿/*
+﻿/**
  * Authors: Isha Afzaal, Sammy Elrafih, Ainslie Veltheon
  * CellBehavior.cs specifies agent behaviour in the quorum-sensing system of L. pneumophila.
  *       Cells use quorum-sensing to understand their population's cell density. Once the cell density passes a
@@ -6,7 +6,7 @@
  * References:
  *  Using timers in Unity: https://answers.unity.com/questions/1453479/how-to-slow-down-random-enemy-spawn.html
  *  Making objects spawn other objects in Unity: https://answers.unity.com/questions/420177/how-do-i-make-an-object-spawn-another-one.html
- */
+ **/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -206,7 +206,6 @@ public class CellBehaviour : MonoBehaviour
         qsOn = false;
     }
 
-
     /*
      * Replicate, then mutate the cell
      */
@@ -226,7 +225,6 @@ public class CellBehaviour : MonoBehaviour
         }
     }
 
-    
     /*
      * Cells consume energy as they move, and will die if their energy is depleted.
      */
@@ -272,7 +270,6 @@ public class CellBehaviour : MonoBehaviour
             }
         }
     }
-
     
     /*
      * Check if antibiotic type #1 is present
