@@ -159,7 +159,7 @@ public class CellBehaviour : MonoBehaviour
     {
         float range = original*mutationRate;
         //range = 2f;
-        float modifier = (rand.Next((int)-(range*100),(int)(range*100)))/100f;
+        float modifier = (rand.Next((int)(-range*100),(int)(range*100)))/100f;
         return Mathf.Abs(original + modifier);
     }
     public void setEA(int qsThreshold, float targetTimeLAI_1, float targetTimeReproduction)
@@ -303,11 +303,11 @@ public class CellBehaviour : MonoBehaviour
             {
                 // Check the agar level at the cells location and get the grid unit cell is at
                 int currentGridLevel = SimulationManager.Instance.grid.getGridLevel(x, z, out int gridX, out int gridZ);
-
+                
                 if (currentGridLevel > 2)
                 {
                     Debug.Log("Consuming Energy.");
-                    energy += 2;
+                    energy += 1;
                     SimulationManager.Instance.grid.subtractNutrientLevel(gridX, gridZ);
                     UISettings.agarLevel -= 2;
                 }

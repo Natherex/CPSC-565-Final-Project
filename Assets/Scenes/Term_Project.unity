@@ -1604,8 +1604,7 @@ MonoBehaviour:
 
     Press "2" for tetracycline
 
-    Press
-    "9" while cursor on a disk to remove it'
+    Press "9" while cursor on a disk to remove it'
 --- !u!222 &309449283
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2347,12 +2346,11 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "<b>System parameters:</b>\n- Reproduction limit is the max number of times
-    each cell can divide\n- Agar nutrient level is spread evenly across the dish
-    with a 10x10 grid system\n- Antibiotic zone of inhibition is the radius extending
-    outwards from the disks, in which bacteria are affected \n- Splitting threshold
-    is the min. level of energy a cell needs in order to replicate\n- Tetracycline
-    resistence...\n- Dropdown variables and slider are for the mutation rates in
-    the EA. "
+    each cell can divide\n- Agar nutrient level is spread evenly across the dish with
+    a 10x10 grid system\n- Antibiotic zone of inhibition is the radius extending outwards
+    from the disks, in which bacteria are affected \n- Splitting threshold is the
+    min. level of energy a cell needs in order to replicate\n- Tetracycline resistence...\n-
+    Dropdown variables and slider are for the mutation rates in the EA. "
 --- !u!222 &499713361
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5272,7 +5270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 0.5
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
