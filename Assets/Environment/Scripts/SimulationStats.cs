@@ -23,7 +23,7 @@ public class SimulationStats : Singleton<SimulationStats>
     {
         numberOfCells.text = "Number of cells: " + cellCount;
 
-        nutrientLevelText.text = "Agar start level: " + UISettings.agarLevel.ToString();
+        nutrientLevelText.text = "Agar level: " + UISettings.agarLevel.ToString();
     }
 
     // Update is called once per frame
@@ -36,7 +36,7 @@ public class SimulationStats : Singleton<SimulationStats>
 
     private void changeUIWithAgarLevel()
     {
-        nutrientLevelText.text = "Agar start level: " + UISettings.agarLevel.ToString();
+        nutrientLevelText.text = "Agar level: " + UISettings.agarLevel.ToString();
     }
 
     private void updateNumberOfCells()

@@ -141,23 +141,23 @@ public class CellBehaviour : MonoBehaviour
             var newCell = Instantiate(go, spawn_location + offset, Quaternion.identity);
             newCell.name = "Cell";
             newCell.GetComponent<CellBehaviour>().setSeed(rand.Next());
-            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, UISettings.qsThresholdMutationRate),
-                mutateFloat(targetTimeLAI_1 ,UISettings.LAI_1MutationRate), mutateFloat(targetTimeReproduction,UISettings.reproductionMutationRate));
+            newCell.GetComponent<CellBehaviour>().setEA(mutateInt(qsThreshold, UISettings.qsThresholdMutationRadius),
+                mutateFloat(targetTimeLAI_1 ,UISettings.LAI_1MutationRadius), mutateFloat(targetTimeReproduction,UISettings.reproductionMutationRadius));
 
             SimulationStats.Instance.cellCount++;
         }
     }
-    private int mutateInt(int original, float mutationRate)
+    private int mutateInt(int original, float mutationRadius)
     {
-        int range = (int)(mutationRate*10);
+        int range = (int)(mutationRadius*10);
         //range = 2;
         int modifier = Random.Range(-range, range);
         
         return Mathf.Abs(original + modifier);
     }
-    private float mutateFloat(float original, float mutationRate)
+    private float mutateFloat(float original, float mutationRadius)
     {
-        float range = original*mutationRate;
+        float range = original*mutationRadius;
         //range = 2f;
         float modifier = (rand.Next((int)(-range*100),(int)(range*100)))/100f;
         return Mathf.Abs(original + modifier);
@@ -232,8 +232,9 @@ public class CellBehaviour : MonoBehaviour
                     {
                         if(isAntiBiotic1Present())
                         {
-                            Destroy(gameObject);
                             SimulationStats.Instance.cellCount--;
+                            Destroy(gameObject);
+                            
                         }else{
                             // Create new game object
                             createCell(transform.position);
@@ -317,15 +318,17 @@ public class CellBehaviour : MonoBehaviour
             // Cells die upon having no energy or by chance being in presence of antiBioticand are removed from the simulation
             if (energy <= 0 || isAntiBiotic2LethalPresent())
             {
-                Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;
+                Destroy(gameObject);
+                
             }
     
             stress -= Time.deltaTime;
             if(stress <= 0)
             {
-                Destroy(gameObject);
                 SimulationStats.Instance.cellCount--;
+                Destroy(gameObject);
+                
             }
         }   
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UISettings
   m_EditorClassIdentifier: 
   reproductionLimit: 5
-  agarLevel: 990
+  agarLevel: 182
   ABRadius: 1
   splitThreshold: 2
   tetResistance: 0.51521105

@@ -99,13 +99,13 @@ public  class UIEventHandler : MonoBehaviour
         // Different variables affected by the sliders value depending on which
         // dropdown is chosen
         if (dropDown.value == 0)
-            UISettings.LAI_1MutationRate = mutationSlider.value;
+            UISettings.LAI_1MutationRadius = mutationSlider.value;
 
         else if (dropDown.value == 1)
-            UISettings.reproductionMutationRate = mutationSlider.value;
+            UISettings.reproductionMutationRadius = mutationSlider.value;
 
         else if (dropDown.value == 2)
-            UISettings.qsThresholdMutationRate = mutationSlider.value;
+            UISettings.qsThresholdMutationRadius = mutationSlider.value;
 
     }
 

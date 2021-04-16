@@ -5210,7 +5210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pick an EA variable from the dropdown below and adjust it's mutation rate
+  m_Text: Pick an EA variable from the dropdown below and adjust it's mutation radius
     with the slider!
 --- !u!222 &1293957401
 CanvasRenderer:

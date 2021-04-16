@@ -29,14 +29,14 @@ public class UISriptable : ScriptableObject
     [Tooltip("How many cells the system starts with")]
     [SerializeField] public int numberOfCells = 10;
 
-    [Tooltip("Mutation rate of LAI-1 production")]
-    [SerializeField] public float LAI_1MutationRate = 0.1f;
+    [Tooltip("Mutation radius of LAI-1 production")]
+    [SerializeField] public float LAI_1MutationRadius = 0.1f;
 
-    [Tooltip("Mutation rate of cell reproduction")]
-    [SerializeField] public float reproductionMutationRate = 0.001f;
+    [Tooltip("Mutation radius of cell reproduction")]
+    [SerializeField] public float reproductionMutationRadius = 0.001f;
 
-    [Tooltip("Mutation rate of the QS threshold")]
-    [SerializeField] public float qsThresholdMutationRate = 0.1f;
+    [Tooltip("Mutation radius of the QS threshold")]
+    [SerializeField] public float qsThresholdMutationRadius = 0.1f;
 
 }
 
