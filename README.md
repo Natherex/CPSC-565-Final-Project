@@ -22,9 +22,11 @@ In our simulation bacteria use quorum sensing to determine when they should repl
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Our program is run in unity using unity 2019.4.19f1. The aspect ratio that is used while running the simulation is also critical for ideal UI and views. We recommend an aspect ratio of 16:10 when in game mode.
+Our program is run in unity using unity 2019.4.19f1. The aspect ratio that is used while running the simulation is also critical for ideal UI and views. We recommend an aspect ratio of 16:10 when in game mode. 
 
-Simply pressing play in unity starts the simulation with the number of bacteria selected in settings. The default is 5. These initial bacteria each have a set of random attributes.
+To get started first open the projec tin unity then load the Term_Project scene. THis scene can be found in the Scenes folder which is located in the assets folder.
+
+After loading the scene simply run the simulation by pressing play in unity. This starts the simulation with the number of bacteria selected in settings. The default is 5. These initial bacteria each have a set of random attributes.
 
 <!-- Features -->
 ## Features
